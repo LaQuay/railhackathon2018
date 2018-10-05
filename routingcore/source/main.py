@@ -32,10 +32,10 @@ def init_graph():
     stoptimesTMB = ParserStops.read_stoptimes_TMB(stopsTMB)
     tripsTMB = ParserStops.read_trips_TMB(stopsTMB, stoptimesTMB)
 
-    stopsFGC = ParserStops.read_stops_FGC()
+    #stopsFGC = ParserStops.read_stops_FGC()
 
     graph = Graph([])
-    #ParserStops.add_routes_TMB(graph, stopsTMB, stoptimesTMB)
+    ParserStops.add_routes_TMB(graph, stopsTMB, tripsTMB)
     
     graph.print_graph()
     #print(str(stopsTMB))

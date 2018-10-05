@@ -74,6 +74,15 @@ class ParserStops:
 
         return data
 
+    def add_routes_TMB(graph, stopsTMB, tripsTMB):
+        for routeid in tripsTMB:
+            stopids = tripsTMB[routeid]
+            for i in range(0,len(stopids)-1):
+                stopid1 = stopids[i]
+                stopid2 = stopids[i+1]
+                graph.add_edge(stopid1, stopid2, 5)
+
+
 
     def read_stops_FGC():
         data = []
