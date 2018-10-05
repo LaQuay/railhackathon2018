@@ -1,6 +1,6 @@
 FROM python:3.6.5-alpine3.7
 
-ENV BASE_DIR_DIR /opt/webapp/
+ENV BASE_DIR_DIR /opt/routingcore/
 
 COPY requirements.txt .
 
