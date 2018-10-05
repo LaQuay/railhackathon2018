@@ -1,5 +1,9 @@
 from flask import Flask
 
+import csv
+
+from data.ParserStops import ParserStops
+
 from Graph import Graph
 from Algorithm import Algorithm
 
@@ -8,6 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    return "jeje"
     return "Dijkstra A to E: " + str(get_dijkstra())
 
 
@@ -15,11 +20,21 @@ def get_dijkstra():
     return algorithm.dijkstra("a", "e")
 
 
+
+
 def init_graph():
-    graph = Graph([
-        ("a", "b", 7), ("b", "a", 7), ("a", "c", 9), ("a", "f", 14), ("b", "c", 10),
-        ("b", "d", 15), ("c", "d", 11), ("c", "f", 2), ("d", "e", 6),
-        ("e", "f", 9)])
+    stopsTMB = ParserStops.read_stops_TMB()
+    stoptimesTMB = ParserStops.read_stoptimes_TMB(stopsTMB)
+    tripsTMB = ParserStops.read_trips_TMB(stopsTMB, stoptimesTMB)
+
+    stopsFGC = ParserStops.read_stops_FGC()
+
+    graph = Graph([])
+    #ParserStops.add_routes_TMB(graph, stopsTMB, stoptimesTMB)
+    
+    graph.print_graph()
+    #print(str(stopsTMB))
+    #print(str(stopsFGC))
 
     return Algorithm(graph)
 
