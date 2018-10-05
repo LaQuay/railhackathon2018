@@ -1,4 +1,4 @@
 #!/bin/sh
-export PYTHONPATH=/opt/webapp/source
+export PYTHONPATH=/opt/routingcore/source
 
 python ./main.py
