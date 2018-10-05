@@ -15,15 +15,7 @@
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on('load', function() {
-      map.addSource('drone', { type: 'geojson', data: url });
-      map.addLayer({
-          "id": "drone",
-          "type": "symbol",
-          "source": "drone",
-          "layout": {
-              "icon-image": "rocket-15"
-          }
-      });
+      
     })
   }
 
@@ -33,9 +25,13 @@
   // Gina
   $('#inputOrigin').on('input', function(e){
     console.log(e.target.value)
+    $('#resultList').html(e.target.value)
   })
 
   $('#inputDestination').on('input', function(e){
     console.log(e.target.value)
+    $('#resultList').html(e.target.value)
   })
+
+  
 })();
