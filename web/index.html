@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <title>KoalaMap</title>
+<head>
+    <title>KoalaMap</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css" rel="stylesheet" />
-    <link href="./css/styles.css" rel="stylesheet" />
-  </head>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css" rel="stylesheet"/>
+    <link href="./css/styles.css" rel="stylesheet"/>
+</head>
 
-  <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
-      <div class="mdl-layout__drawer">
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+    <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">KoalaMap</span>
         <nav class="mdl-navigation">
             <div class="mdl-navigation__link" href="">
                 <form action="#">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <input class="mdl-textfield__input" type="text" id="inputOrigin">
-                      <label class="mdl-textfield__label" for="inputOrigin">Origen...</label>
+                        <input class="mdl-textfield__input" type="text" id="inputOrigin">
+                        <label class="mdl-textfield__label" for="inputOrigin">Origen...</label>
                     </div>
-                  </form>
-                  <form action="#">
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                </form>
+                <form action="#">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" id="inputDestination">
                         <label class="mdl-textfield__label" for="inputDestination">Destinacio...</label>
-                      </div>
-                    </form>
+                    </div>
+                </form>
             </div>
             <!-- 
           <a class="mdl-navigation__link" href="">Link</a>
@@ -35,15 +35,16 @@
           <a class="mdl-navigation__link" href="">Link</a>
             -->
         </nav>
-      </div>
-
-      
-      <div id="map" class="page-content"></div>
     </div>
 
-    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="./js/index.js"></script>
-  </body>
+
+    <div id="map" class="page-content"></div>
+</div>
+
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="./js/index.js"></script>
+<script src="./js/api.js"></script>
+</body>
 </html>
