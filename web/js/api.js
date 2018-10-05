@@ -13,6 +13,6 @@ var HttpClient = function() {
 window.onload = function() {
     var client = new HttpClient();
     client.get('http://localhost:5000/', function(response) {
-        alert(response);
+        //alert(response);
     });
 }
