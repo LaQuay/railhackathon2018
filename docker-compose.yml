@@ -1,9 +1,16 @@
 version: '3.5'
 
 services:
-  user-webapp:
+  routingcore:
     build:
       context: routingcore
       dockerfile: Dockerfile
     ports:
     - "5000:5000"
+
+  user-webapp:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    ports:
+    - "80:80"
