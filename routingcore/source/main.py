@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS, cross_origin
 
 import csv
 
@@ -9,8 +10,12 @@ from Algorithm import Algorithm
 
 app = Flask(__name__)
 
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 @app.route('/')
+@cross_origin()
 def index():
     return "jeje"
     return "Dijkstra A to E: " + str(get_dijkstra())
