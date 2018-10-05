@@ -4,6 +4,7 @@ from Graph import Graph
 # we'll use infinity as a default distance to nodes.
 inf = float('inf')
 
+
 class Algorithm:
     def __init__(self, graph):
         self.graph = graph

@@ -3,7 +3,6 @@ from collections import deque, namedtuple
 Edge = namedtuple('Edge', 'start, end, cost')
 
 
-
 class Graph:
     def __init__(self, edges):
         # let's check that the data is right
