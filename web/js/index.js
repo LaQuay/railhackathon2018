@@ -20,4 +20,14 @@
   }
 
   initializeMap();
+
+
+  // Gina
+  $('#inputOrigin').on('input', function(e){
+    console.log(e.target.value)
+  })
+
+  $('#inputDestination').on('input', function(e){
+    console.log(e.target.value)
+  })
 })();
