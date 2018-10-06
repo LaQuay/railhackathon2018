@@ -129,7 +129,7 @@
   }
 
   function callGoogleApi(value, callbackName) {
-    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM`)
+    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&region=es&key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM`)
       .then(results => {
         $('#resultList').html('')
         if (results.status === 'OK') {
@@ -145,10 +145,16 @@
 
   // Gina
   $('#inputOrigin').on('input', function(e){
-    callGoogleApi(e.target.value, 'onOriginClick')
+    if (e.target.value)
+      callGoogleApi(e.target.value, 'onOriginClick')
+    else
+      $('#resultList').html('')
   })
 
   $('#inputDestination').on('input', function(e){
-    callGoogleApi(e.target.value, 'onDestinationClick')
+    if (e.target.value)
+      callGoogleApi(e.target.value, 'onDestinationClick')
+    else
+      $('#resultList').html('')
   })
 })();
