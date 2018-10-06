@@ -9,7 +9,7 @@ rund:
 	docker-compose up -d
 
 launch: rund
-	ssh -R koalasTEST:80:localhost:80 serveo.net
+	ssh -R koalas:80:localhost:80 serveo.net
 
 stop:
 	docker-compose stop
