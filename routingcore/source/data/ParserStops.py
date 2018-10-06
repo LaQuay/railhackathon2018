@@ -150,6 +150,8 @@ class ParserStops:
         graph.data.update(data)
 
     def get_path_info(graph, path):
+        print("PATH ----------------")
+
         info = {"path": []}
         cost = 0
         for stopid in path:
@@ -168,5 +170,3 @@ class ParserStops:
             cost += graph.get_edge_cost(stopid1, stopid2)
 
         info["cost"] = cost
-
-        print(info)
