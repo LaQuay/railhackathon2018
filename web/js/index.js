@@ -146,20 +146,20 @@
   function searchPath() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
-        var hasIncident = routes.path.filter((route) => route.path.filter((station) => station.stopid === '1.316').length > 0).length > 0
+        var hasIncident = routes.path.filter((route) => route.path.filter((station) => station.stopid === '1.512').length > 0).length > 0
         
-        // if (hasIncident)
-        // {
-        //   routingDataAccess.updateEdge('1.316', '1.317', 1000)
-        //     .then(() => {
-        //       searchPath()
-        //     })
-        // }
+        if (hasIncident)
+        {
+          routingDataAccess.updateEdge('1.512', '1.511', 1000)
+            .then(() => {
+              searchPath()
+            })
+        }
 
         var i = 0
         routes.path.forEach((route) => {
           var shape = []
-          if (route.shape && route.shape.length > 0) {
+          if (route.shape && route.shape.length > 0 && route.line !== 'T1') {
             route.shape.forEach(singleShape => singleShape.reverse())
             shape = route.shape.reduce((acc, val) => acc.concat(val), [])
           } else {
@@ -189,7 +189,7 @@
               
             },
             "paint": {
-              "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
+              "line-color": hasIncident ? '#555' : (route.type === 'walk' ? '#888' : lineColor[route.line]),
               "line-width": 3,
               "line-opacity": hasIncident ? 0.5 : 1
             }
