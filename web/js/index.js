@@ -25,7 +25,7 @@
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: [2.05, 41.38],
+      center: [2.09, 41.38],
       zoom: 12,
       hash: true
     })
@@ -124,7 +124,7 @@
             shape = route.path
           }
           var layer = {
-            "id": route.type + '_' + i,
+            "id": route.type + '_' + Math.floor(Math.random() * 1000000),
             "type": "line",
             "source": {
               "type": "geojson",
