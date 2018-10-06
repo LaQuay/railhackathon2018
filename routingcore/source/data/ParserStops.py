@@ -132,6 +132,7 @@ class ParserStops:
                 routeid = line[0]
                 tripid = line[2]
 
+                #if routeid != "2" and routeid != "3":
                 if not routeid in data and tripid in stoptimesTMB:
                     data[routeid] = stoptimesTMB[tripid]
 
@@ -159,6 +160,9 @@ class ParserStops:
             return None
 
         data = {}
+
+        llista_prohibida = ["Zona Universitària", "Avinguda de Xile", "Ernest Lluch", "Can Rigal", "Ca n'Oliveres", "Can Clota", 
+            "Pont d'Esplugues", "La Sardana", "Montesa"]
 
         for routeid in tripsTMB:
             stopids = tripsTMB[routeid]
@@ -200,6 +204,8 @@ class ParserStops:
             shape = None
             if key is not None and key in graph.shape.keys():
                 shape = graph.shape[key]
+            elif lastline is not None and lastline == stopdata["line"]:
+                print("ERROR --- " + str(key))
 
             if lastline is None:
                 item = {}
@@ -229,10 +235,6 @@ class ParserStops:
             stopid1 = path[i]
             stopid2 = path[i+1]
             cost += graph.get_edge_cost(stopid1, stopid2)
-
-            key = stopid1 + "-" + stopid2
-            if key in graph.shape.keys():
-                shape = graph.shape[key]
 
         info["cost"] = cost
 
@@ -286,6 +288,7 @@ class ParserStops:
                 stopdata = graph.data[stopid]
                 name = stopdata["name"]
                 line = stopdata["line"]
+
                 if name == stopname and line == linename:
                     return stopid
             return None
@@ -303,33 +306,29 @@ class ParserStops:
             tramsplit = tram.split("-")
             serveisplit = str(serveis).split("-")
             if tram != "Bifurcació" and "Cotxeres" not in tram and len(tramsplit) >= 2:
-                #print(str(tramsplit) + " --- " + str(serveisplit))
-                stopnamefrom = tramsplit[0]
-                stopnameto = tramsplit[1]
-                stopidfrom = None
-                stopidto = None
-                for line in serveisplit:
-                    if line != "None" and line not in ["L4", "L11", "L2", "T4", "T5", "T6"]:
-                        stopidfrom = find_stopid(stopnamefrom, line)
-                        stopidto = find_stopid(stopnameto, line)
+                fromcode = [0,1]
+                tocode = [1,0]
+                for i in range(0,len(fromcode)):
+                    stopnamefrom = tramsplit[fromcode[i]]
+                    stopnameto = tramsplit[tocode[i]]
+                    stopidfrom = None
+                    stopidto = None
+                    for line in serveisplit:
+                        if line != "None" and line not in ["L4", "L11", "L2", "T2", "T3", "T4", "T5", "T6", "L9L10", "L10"]:
+                            stopidfrom = find_stopid(stopnamefrom, line)
+                            stopidto = find_stopid(stopnameto, line)
 
-                        if stopidfrom is None:
-                            print(stopnamefrom + " ---- " + line)
+                    if stopidfrom is not None and stopidto is not None:
 
-                if stopidfrom is not None and stopidto is not None:
-                    #print(str(tramsplit) + " --- " + str(serveisplit))
-                    #print(stopidfrom + " --- " + stopidto)
+                        coordinates = feature['geometry']["coordinates"][0]
+                        coords = []
+                        for c in coordinates:
+                            lat = c[1]
+                            lng = c[0]
+                            coords.append({"lat": lat, "lng": lng})
 
-                    coordinates = feature['geometry']["coordinates"][0]
-                    coords = []
-                    for c in coordinates:
-                        lat = c[1]
-                        lng = c[0]
-                        coords.append({"lat": lat, "lng": lng})
+                        shape[stopidfrom + "-" + stopidto] = coords
 
-                    shape[stopidfrom + "-" + stopidto] = coords
-
-        #print(shape)
 
         graph.shape = shape
 
