@@ -28,18 +28,17 @@
                         <label class="mdl-textfield__label" for="inputDestination">Destinacio...</label>
                     </div>
                 </form>
-
-                <div id="locationField">
-                    <input id="autocomplete" placeholder="Enter your address"
-                           onFocus="geolocate()" type="text"/>
-                </div>
             </div>
-            <!-- 
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-            -->
+
+            <div class="mdl-navigation__link">
+              <button onclick="onSearchClick()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Buscar
+              </button>
+            </div>
+
+            <div id="resultList">
+
+            </div>
         </nav>
     </div>
 
@@ -51,12 +50,7 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-<!-- Supply your own API_KEY here -->
-<script src="https://maps.googleapis.com/maps/api/js?
-        key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM
-        &libraries=places&callback=initAutocomplete" async defer></script>
 <script src="./js/index.js"></script>
 <script src="./js/api.js"></script>
-<script src="./js/autocomplete.js"></script>
 </body>
 </html>
