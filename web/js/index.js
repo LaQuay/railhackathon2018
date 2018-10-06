@@ -95,12 +95,63 @@
     $('#resultList').html('')
   }
 
+  var createGeoJSONCircles = function(path, radiusInKm, points) {
+    if(!points) points = 32;
+
+    var features = path.map((pathPiece) => {
+      
+      var coords = {
+        latitude: pathPiece.lat,
+        longitude: pathPiece.lng
+      };
+  
+      var km = radiusInKm;
+  
+      var ret = [];
+      var distanceX = km/(111.320*Math.cos(coords.latitude*Math.PI/180));
+      var distanceY = km/110.574;
+  
+      var theta, x, y;
+      for(var i=0; i<points; i++) {
+        theta = (i/points)*(2*Math.PI);
+        x = distanceX*Math.cos(theta);
+        y = distanceY*Math.sin(theta);
+  
+        ret.push([coords.longitude+x, coords.latitude+y]);
+      }
+      ret.push(ret[0]);
+
+      return {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [ret]
+        }
+      }
+    })
+    
+    return {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": features
+      }
+    };
+  }; 
+
   window.search = function() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
         console.log(routes)
         var i = 0
         routes.path.forEach((route) => {
+          var shape = []
+          if (route.shape && route.shape.length > 0) {
+            route.shape.forEach(singleShape => singleShape.reverse())
+            shape = route.shape.flat()
+          } else {
+            shape = route.path
+          }
           var layer = {
             "id": route.type + '_' + i,
             "type": "line",
@@ -111,7 +162,7 @@
                 "properties": {},
                 "geometry": {
                   "type": "LineString",
-                  "coordinates": route.path.map(function(point) {
+                  "coordinates": shape.map(function(point) {
                     return [point.lng, point.lat]
                   })
                 }
@@ -124,7 +175,8 @@
             },
             "paint": {
               "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
-              "line-width": 3
+              "line-width": 1,
+              "line-gap-width": 3
             }
           };
 
@@ -132,6 +184,12 @@
             layer.paint['line-dasharray'] = [5,3]
           }
           map.addLayer(layer)
+
+          map.addLayer({
+            "id": route.line,
+            "type": 'fill',
+            "source": createGeoJSONCircles(route.path, 0.02)
+          })
 
           i++
         })
