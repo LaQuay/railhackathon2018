@@ -130,7 +130,8 @@
   }
 
   function callGoogleApi(value, callbackName) {
-    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&region=es&key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM`)
+    var key = "AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM"; // Add here your API_KEY
+    $.get('https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&region=es&key=' + key)
       .then(results => {
         $('#resultList').html('')
         if (results.status === 'OK') {
