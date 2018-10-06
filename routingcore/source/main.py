@@ -1,13 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
 
-import csv
-
 from data.ParserStops import ParserStops
-
 from Graph import Graph
 from Algorithm import Algorithm
-from flask import jsonify
 
 app = Flask(__name__)
 
@@ -16,10 +12,14 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 inf = float('inf')
 
-@app.route('/')
+
+@app.route('/get-dijkstra/<float:latitude>/<float:longitude>/<float:latitude2>/<float:longitude2>/', methods=['GET'])
 @cross_origin()
-def index():
-    return jsonify(get_dijkstra())
+def index(latitude, longitude, latitude2, longitude2):
+    return jsonify(get_dijkstra(
+        coordfrom={"lat": latitude, "lng": longitude},
+        coordto={"lat": latitude2, "lng": longitude2}))
+
 
 def get_dijkstra(coordfrom, coordto):
     nodefrom = ParserStops.get_near_stopnodes(algorithm.graph, coordfrom["lat"], coordfrom["lng"])
@@ -29,18 +29,19 @@ def get_dijkstra(coordfrom, coordto):
 
     return info
 
+
 def init_graph():
     graph = Graph([])
     ParserStops.add_stop_to_stop_edges(graph, "TMB")
     ParserStops.add_stop_change_stop_edges(graph, "TMB")
     ParserStops.add_stop_to_stop_edges(graph, "TRAM")
     ParserStops.add_stop_change_stop_edges(graph, "TRAM")
-    #ParserStops.add_stop_to_stop_edges(graph, "FGC")
-    #ParserStops.add_stop_change_stop_edges(graph, "FGC")
-    #graph.print_graph()
+    # ParserStops.add_stop_to_stop_edges(graph, "FGC")
+    # ParserStops.add_stop_change_stop_edges(graph, "FGC")
+    # graph.print_graph()
 
     stopids = graph.vertices
-    #print(stopids)
+    # print(stopids)
 
     # TMB data
     stopsTMB = ParserStops.read_stops("TMB", stopids)
@@ -55,22 +56,22 @@ def init_graph():
     routesTRAM = ParserStops.read_routes("TRAM")
 
     # FGC data
-    #stopsFGC = ParserStops.read_stops_FGC(stopids)
-    #stoptimesFGC = ParserStops.read_stoptimes("FGC", stopids, stopsFGC)
-    #tripsFGC = ParserStops.read_trips("FGC", stopids, stopsFGC, stoptimesFGC)
-    #routesFGC = ParserStops.read_routes("FGC")
+    # stopsFGC = ParserStops.read_stops_FGC(stopids)
+    # stoptimesFGC = ParserStops.read_stoptimes("FGC", stopids, stopsFGC)
+    # tripsFGC = ParserStops.read_trips("FGC", stopids, stopsFGC, stoptimesFGC)
+    # routesFGC = ParserStops.read_routes("FGC")
 
     ParserStops.add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB)
     ParserStops.add_info_to_graph(graph, stopsTRAM, tripsTRAM, routesTRAM)
-   #ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
+    # ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
 
     return Algorithm(graph)
 
 
 algorithm = init_graph()
-info = get_dijkstra(coordfrom={"lat": 41.379, "lng": 2.113}, coordto={"lat": 41.383, "lng": 2.130})
 
-algorithm.graph.update_edge("1.516","1.517",inf)
+info = get_dijkstra(coordfrom={"lat": 41.379, "lng": 2.113}, coordto={"lat": 41.383, "lng": 2.130})
+algorithm.graph.update_edge("1.516", "1.517", inf)
 info = get_dijkstra(coordfrom={"lat": 41.379, "lng": 2.113}, coordto={"lat": 41.383, "lng": 2.130})
 
 if __name__ == '__main__':
