@@ -21,7 +21,6 @@ def index(latitude, longitude, latitude2, longitude2):
         coordto={"lat": latitude2, "lng": longitude2}))
 
 
-
 @app.route('/update-edge/<string:node1>/<string:node2>/<int:newcost>/', methods=['POST'])
 @cross_origin()
 def index2(node1, node2, newcost):
@@ -47,7 +46,7 @@ def get_dijkstra(coordfrom, coordto):
                     mincost = cost
                     mininfo = info
 
-    #print(mininfo)
+    # print(mininfo)
 
     return mininfo
 

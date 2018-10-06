@@ -47,9 +47,11 @@
           "layout": {
             "icon-image": "{icon}-15",
             "text-field": "{title}",
-            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-            "text-offset": [0, 0.6],
-            "text-anchor": "top"
+            "text-font": ["Open Sans Regular"],
+            "text-offset": [-0.5, 0],
+            "text-anchor": "top",
+            "text-justify": "center",
+            "text-size": 32
           }
         }
         map.addLayer(layer);
@@ -102,7 +104,6 @@
     if(!points) points = 32;
 
     var features = path.map((pathPiece) => {
-      
       var coords = {
         latitude: pathPiece.lat,
         longitude: pathPiece.lng
@@ -166,13 +167,15 @@
             shape = route.path
           }
           var layer = {
-            "id": route.type + '_' + Math.floor(Math.random() * 1000000),
+            "id": route.type + '_' + i,
             "type": "line",
             "source": {
               "type": "geojson",
               "data": {
                 "type": "Feature",
-                "properties": {},
+                "properties": {
+                  "title": route.cost
+                },
                 "geometry": {
                   "type": "LineString",
                   "coordinates": shape.map(function(point) {
@@ -196,8 +199,8 @@
           if (route.type === 'walk') {
             layer.paint['line-dasharray'] = [5,3]
           }
-          map.addLayer(layer)
-          activeLayers.push(layer)
+          map.addLayer(layer);
+          activeLayers.push(layer);
 
           var circlesLayer = {
             "id": route.line + Math.floor(Math.random() * 1000000),
@@ -211,6 +214,18 @@
           }
           map.addLayer(circlesLayer)
           activeLayers.push(circlesLayer)
+
+          map.addLayer({
+            "id": "symbols" + '_' + i,
+            "type": "symbol",
+            "source": route.type + '_' + i,
+            "layout": {
+              "symbol-placement": "line",
+              "text-font": ["Open Sans Regular"],
+              "text-field": '{title}',
+              "text-size": 32
+            }
+          });
 
           i++
         })
