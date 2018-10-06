@@ -140,17 +140,21 @@
         "features": features
       }
     };
-  }; 
+  };
 
-  window.search = function() {
-    activeLayers.forEach((layer) => {
-      map.removeLayer(layer.id)
-    })
-    activeLayers = []
-
+  function searchPath() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
-        console.log(routes)
+        var hasIncident = routes.path.filter((route) => route.path.filter((station) => station.stopid === '1.316').length > 0).length > 0
+        
+        if (hasIncident)
+        {
+          routingDataAccess.updateEdge('1.316', '1.317', 1000)
+            .then(() => {
+              searchPath()
+            })
+        }
+
         var i = 0
         routes.path.forEach((route) => {
           var shape = []
@@ -183,7 +187,8 @@
             },
             "paint": {
               "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
-              "line-width": 3
+              "line-width": 3,
+              "line-opacity": hasIncident ? 0.5 : 1
             }
           };
 
@@ -207,6 +212,15 @@
       .catch((err) => {
         // La crida ha fallat
       })
+  }
+
+  window.search = function() {
+    activeLayers.forEach((layer) => {
+      map.removeLayer(layer.id)
+    })
+    activeLayers = []
+
+    searchPath()
   }
 
   function callGoogleApi(value, callbackName) {
