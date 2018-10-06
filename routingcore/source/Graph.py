@@ -23,6 +23,12 @@ class Graph:
             )
         )
 
+    def get_edge_cost(self, n1, n2):
+        for edge in self.edges:
+            if edge.start == n1 and edge.end == n2:
+                return edge.cost
+        return inf
+
     def get_node_pairs(self, n1, n2, both_ends=False):
         if both_ends:
             node_pairs = [[n1, n2], [n2, n1]]

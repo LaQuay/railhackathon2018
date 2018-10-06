@@ -95,15 +95,23 @@ class ParserStops:
         graph.data = data
 
     def get_path_info(graph, path):
-        info = []
+        info = {"path": []}
+        cost = 0
         for stopid in path:
             stopdata = graph.data[stopid]
-            info.append({
+            info["path"].append({
                 "stopid": stopid,
                 "stopname": stopdata["name"]
             })
 
             print(stopid + " --- " + stopdata["name"])
+
+        for i in range(0,len(path)-1):
+            stopid1 = path[i]
+            stopid2 = path[i+1]
+            cost += graph.get_edge_cost(stopid1, stopid2)
+
+        info["cost"] = cost
 
         print(info)
 
