@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String URL = "http://koalas.serveo.net/";
     private WebView webView;
 
     @Override
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        loadWebView("https://koalasTEST.serveo.net/");
+        loadWebView(URL);
     }
 
     private void loadWebView(String url) {
