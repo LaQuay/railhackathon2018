@@ -2,6 +2,7 @@
   var map = null
   var selectedOrigin = null
   var selectedDestination = null
+  var activeLayers = []
   
   var routingDataAccess = Koalas.Util.getDataAccess('Routing')
   var metroDataAccess = Koalas.Util.getDataAccess('Metro')
@@ -48,7 +49,8 @@
             "text-field": "{title}",
             "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
             "text-offset": [0, 0.6],
-            "text-anchor": "top"
+            "text-anchor": "top",
+            "text-size": 32
           }
         }
         map.addLayer(layer);
@@ -101,7 +103,6 @@
     if(!points) points = 32;
 
     var features = path.map((pathPiece) => {
-      
       var coords = {
         latitude: pathPiece.lat,
         longitude: pathPiece.lng
@@ -197,8 +198,9 @@
           map.addLayer(layer);
           activeLayers.push(layer);
 
+          var circleRandom = Math.floor(Math.random() * 1000000);
           var circlesLayer = {
-            "id": route.line + Math.floor(Math.random() * 1000000),
+            "id": route.line + circleRandom,
             "type": 'fill',
             "source": createGeoJSONCircles(route.path, 0.02)
           }
@@ -220,7 +222,7 @@
           map.addLayer({
             "id": "symbols2" + '_' + i,
             "type": "symbol",
-            "source": route.line + '_' + i,
+            "source": route.line + circleRandom,
             "layout": {
               "symbol-placement": "line",
               "text-font": ["Open Sans Regular"],
