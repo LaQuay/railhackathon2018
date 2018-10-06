@@ -2,10 +2,10 @@ import csv
 
 class ParserStops:
 
-    def add_stop_to_stop_edges_TMB(graph):
+    def add_stop_to_stop_edges(graph, tag):
         data = {}
 
-        with open("data/TMB/stop_to_stop.txt", "r") as f:
+        with open("data/" + tag + "/stop_to_stop.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -16,10 +16,10 @@ class ParserStops:
                 graph.add_edge(stopid2, stopid1, cost)
         return data
 
-    def add_stop_change_stop_edges_TMB(graph):
+    def add_stop_change_stop_edges(graph, tag):
         data = {}
 
-        with open("data/TMB/stop_change_stop.txt", "r") as f:
+        with open("data/" + tag + "/stop_change_stop.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -31,10 +31,10 @@ class ParserStops:
         return data
 
 
-    def read_stops(tag, stopids):
+    def read_stops_TMB(stopids):
         data = {}
 
-        with open("data/" + tag + "/stops.txt", "r") as f:
+        with open("data/TMB/stops.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -42,6 +42,25 @@ class ParserStops:
                 if id in stopids:
                     lat = float(line[3])
                     lng = float(line[4])
+                    name = line[2]
+                    data[id] = {
+                        "name": name,
+                        "lat": lat,
+                        "lng": lng
+                    }
+        return data
+
+    def read_stops_FGC(stopids):
+        data = {}
+
+        with open("data/FGC/stops.txt", "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                id = line[3]
+                if id in stopids:
+                    lat = float(line[0])
+                    lng = float(line[1])
                     name = line[2]
                     data[id] = {
                         "name": name,
