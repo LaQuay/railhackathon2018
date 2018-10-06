@@ -1,20 +1,11 @@
 import csv
 
-#maxLatitude = 41.4
-#minLatitude = 41.1
-#maxLongitude = 2.1
-#minLongitude = 2.0
-maxLatitude = 50
-minLatitude = 3
-maxLongitude = 3
-minLongitude = 1
-
 class ParserStops:
 
-    def add_stop_to_stop_edges_TMB(graph):
+    def add_stop_to_stop_edges(graph, tag):
         data = {}
 
-        with open("data/TMB/stop_to_stop.txt", "r") as f:
+        with open("data/" + tag + "/stop_to_stop.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -25,10 +16,10 @@ class ParserStops:
                 graph.add_edge(stopid2, stopid1, cost)
         return data
 
-    def add_stop_change_stop_edges_TMB(graph):
+    def add_stop_change_stop_edges(graph, tag):
         data = {}
 
-        with open("data/TMB/stop_change_stop.txt", "r") as f:
+        with open("data/" + tag + "/stop_change_stop.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -40,10 +31,10 @@ class ParserStops:
         return data
 
 
-    def read_stops_TMB(stopids):
+    def read_stops(tag, stopids):
         data = {}
 
-        with open("data/TMB/stops.txt", "r") as f:
+        with open("data/" + tag + "/stops.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -59,10 +50,48 @@ class ParserStops:
                     }
         return data
 
-    def read_stoptimes_TMB(stopids, stopsTMB):
+    def read_stops_TRAM(stopids):
         data = {}
 
-        with open("data/TMB/stop_times.txt", "r") as f:
+        with open("data/TRAM/stops.txt", "r", encoding='utf-8') as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                id = line[0]
+                if id in stopids:
+                    lat = float(line[3])
+                    lng = float(line[4])
+                    name = line[1]
+                    data[id] = {
+                        "name": name,
+                        "lat": lat,
+                        "lng": lng
+                    }
+        return data
+
+    def read_stops_FGC(stopids):
+        data = {}
+
+        with open("data/FGC/stops.txt", "r", encoding='utf-8') as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                id = line[3]
+                if id in stopids:
+                    lat = float(line[0])
+                    lng = float(line[1])
+                    name = line[2]
+                    data[id] = {
+                        "name": name,
+                        "lat": lat,
+                        "lng": lng
+                    }
+        return data
+
+    def read_stoptimes(tag, stopids, stopsTMB):
+        data = {}
+
+        with open("data/" + tag + "/stop_times.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -88,10 +117,10 @@ class ParserStops:
 
         return dataroutes
 
-    def read_trips_TMB(stopids, stopsTMB, stoptimesTMB):
+    def read_trips(tag, stopids, stopsTMB, stoptimesTMB):
         data = {}
 
-        with open("data/TMB/trips.txt", "r") as f:
+        with open("data/" + tag + "/trips.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -103,10 +132,10 @@ class ParserStops:
 
         return data
 
-    def read_routes_TMB():
+    def read_routes(tag):
         data = {}
 
-        with open("data/TMB/routes.txt", "r") as f:
+        with open("data/" + tag + "/routes.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -117,7 +146,7 @@ class ParserStops:
 
         return data
 
-    def add_info_TMB(graph, stopsTMB, tripsTMB, routesTMB):
+    def add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB):
         def find_route(stopid):
             for routeid in tripsTMB:
                 if stopid in tripsTMB[routeid]:
@@ -137,14 +166,17 @@ class ParserStops:
                     "line": routesTMB[routeid]
                 }
 
-        graph.data = data
+        graph.data.update(data)
 
     def get_path_info(graph, path):
+        print("PATH ----------------")
+
         info = {"path": []}
         cost = 0
         lastline = None
         for stopid in path:
             stopdata = graph.data[stopid]
+            print(str(stopdata))
             pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
@@ -152,17 +184,19 @@ class ParserStops:
             }
 
             if lastline is None:
-                info["path"].append({
-                    type: 'metro',
-                    path: []
-                })
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = []
+                info["path"].append(item)
                 lastline = stopdata["line"]
             elif lastline != stopdata["line"]:
                 lastline = stopdata["line"]
-                info["path"].append({
-                    type: 'metro',
-                    path: [pathpoint]
-                })
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = [pathpoint]
+                info["path"].append(item)
             else:
                 info["path"][-1]["path"].append(pathpoint)
 
@@ -175,7 +209,7 @@ class ParserStops:
 
         info["cost"] = cost
 
-        #print(info)
+        print(info)
         return info
 
 

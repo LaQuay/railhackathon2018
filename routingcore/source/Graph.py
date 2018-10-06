@@ -11,6 +11,7 @@ class Graph:
             raise ValueError('Wrong edges data: {}'.format(wrong_edges))
 
         self.edges = [self.make_edge(*edge) for edge in edges]
+        self.data = {}
 
     def make_edge(self, start, end, cost=1):
         return Edge(start, end, cost)
