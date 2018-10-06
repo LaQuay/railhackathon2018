@@ -21,8 +21,8 @@
   function initializeMetroStations() {
     metroDataAccess.getMetroStations()
       .then((metroStations) => {
-        map.addLayer({
-          "id": "points",
+        var layer = {
+          "id": "points" + Math.floor(Math.random() * 1000000),
           "type": "symbol",
           "source": {
             "type": "geojson",
@@ -50,7 +50,9 @@
             "text-offset": [0, 0.6],
             "text-anchor": "top"
           }
-        });
+        }
+        map.addLayer(layer);
+        activeLayers.push(layer)
       })
       .catch((err) => {
         // TODO
@@ -99,6 +101,7 @@
     if(!points) points = 32;
 
     var features = path.map((pathPiece) => {
+      
       var coords = {
         latitude: pathPiece.lat,
         longitude: pathPiece.lng
@@ -142,6 +145,11 @@
   }; 
 
   window.search = function() {
+    activeLayers.forEach((layer) => {
+      map.removeLayer(layer.id)
+    })
+    activeLayers = []
+
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
         console.log(routes)
@@ -187,12 +195,15 @@
             layer.paint['line-dasharray'] = [5,3]
           }
           map.addLayer(layer);
+          activeLayers.push(layer);
 
-          map.addLayer({
-            "id": route.line + '_' + i,
+          var circlesLayer = {
+            "id": route.line + Math.floor(Math.random() * 1000000),
             "type": 'fill',
             "source": createGeoJSONCircles(route.path, 0.02)
-          });
+          }
+          map.addLayer(circlesLayer)
+          activeLayers.push(circlesLayer)
 
           map.addLayer({
             "id": "symbols" + '_' + i,
