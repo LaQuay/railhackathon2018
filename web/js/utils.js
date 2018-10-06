@@ -2,8 +2,11 @@
   window.Koalas = {}
   var Koalas = window.Koalas
 
+  Koalas.DataAccess = {}
+
   Koalas.Resources = {
-    useMocks: true
+    useMocks: false,
+    apiUrl: 'http://localhost:5000'
   }
 
   Koalas.Util = {}
@@ -12,7 +15,6 @@
     var instance = null
     if (Koalas.Resources.useMocks) {
       instance = Koalas.DataAccess[className + 'Mock']()
-      console.log(instance)
     } else {
       instance = Koalas.DataAccess[className]()
     }
