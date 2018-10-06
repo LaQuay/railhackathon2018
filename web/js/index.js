@@ -47,9 +47,10 @@
           "layout": {
             "icon-image": "{icon}-15",
             "text-field": "{title}",
-            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-            "text-offset": [0, 0.6],
+            "text-font": ["Open Sans Regular"],
+            "text-offset": [-0.5, 0],
             "text-anchor": "top",
+            "text-justify": "center",
             "text-size": 32
           }
         }
@@ -126,9 +127,6 @@
 
       return {
         "type": "Feature",
-        "properties": {
-          "title": pathPiece.stopname
-        },
         "geometry": {
           "type": "Polygon",
           "coordinates": [ret]
@@ -175,7 +173,7 @@
               "data": {
                 "type": "Feature",
                 "properties": {
-                  "title": route.path[i].stopname
+                  "title": route.cost
                 },
                 "geometry": {
                   "type": "LineString",
@@ -203,9 +201,8 @@
           map.addLayer(layer);
           activeLayers.push(layer);
 
-          var circleRandom = Math.floor(Math.random() * 1000000);
           var circlesLayer = {
-            "id": route.line + circleRandom,
+            "id": route.line + Math.floor(Math.random() * 1000000),
             "type": 'fill',
             "source": createGeoJSONCircles(route.path, 0.02)
           }
@@ -221,21 +218,6 @@
               "text-font": ["Open Sans Regular"],
               "text-field": '{title}',
               "text-size": 32
-            }
-          });
-
-          map.addLayer({
-            "id": "symbols2" + '_' + i,
-            "type": "symbol",
-            "source": route.line + circleRandom,
-            "layout": {
-              "symbol-placement": "line",
-              "text-font": ["Open Sans Regular"],
-              "text-field": '{title}',
-              "text-anchor": "top",
-              "text-justify": "center",
-              "text-offset": [-0.5, 0],
-              "text-size": 42
             }
           });
 
