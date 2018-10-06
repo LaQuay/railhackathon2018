@@ -17,15 +17,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 @cross_origin()
 def index():
-    return "jeje"
     return "Dijkstra A to E: " + str(get_dijkstra())
 
-
 def get_dijkstra():
-    return algorithm.dijkstra("a", "e")
+    path = algorithm.dijkstra("2.3001", "2.1153")
+    ParserStops.get_path_info(algorithm.graph, path)
 
-
-
+    return path
 
 def init_graph():
     stopsTMB = ParserStops.read_stops_TMB()
@@ -37,7 +35,7 @@ def init_graph():
     graph = Graph([])
     ParserStops.add_routes_TMB(graph, stopsTMB, tripsTMB)
     
-    graph.print_graph()
+    #graph.print_graph()
     #print(str(stopsTMB))
     #print(str(stopsFGC))
 
@@ -45,6 +43,7 @@ def init_graph():
 
 
 algorithm = init_graph()
+print(str(get_dijkstra()))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
