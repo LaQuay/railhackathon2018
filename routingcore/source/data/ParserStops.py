@@ -142,15 +142,31 @@ class ParserStops:
     def get_path_info(graph, path):
         info = {"path": []}
         cost = 0
+        lastline = None
         for stopid in path:
             stopdata = graph.data[stopid]
-            info["path"].append({
+            pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
                 "line": stopdata["line"]
-            })
+            }
 
-            print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
+            if lastline is None:
+                info["path"].append({
+                    type: 'metro',
+                    path: []
+                })
+                lastline = stopdata["line"]
+            elif lastline != stopdata["line"]:
+                lastline = stopdata["line"]
+                info["path"].append({
+                    type: 'metro',
+                    path: [pathpoint]
+                })
+            else:
+                info["path"][-1]["path"].append(pathpoint)
+
+            #print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
 
         for i in range(0,len(path)-1):
             stopid1 = path[i]
@@ -159,7 +175,8 @@ class ParserStops:
 
         info["cost"] = cost
 
-        print(info)
+        #print(info)
+        return info
 
 
 

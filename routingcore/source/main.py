@@ -7,6 +7,7 @@ from data.ParserStops import ParserStops
 
 from Graph import Graph
 from Algorithm import Algorithm
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -17,13 +18,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 @cross_origin()
 def index():
-    return "Dijkstra A to E: " + str(get_dijkstra())
+    return jsonify(get_dijkstra())
 
 def get_dijkstra():
     path = algorithm.dijkstra("1.516", "1.315")
-    ParserStops.get_path_info(algorithm.graph, path)
+    info = ParserStops.get_path_info(algorithm.graph, path)
 
-    return path
+    return info
 
 def init_graph():
     graph = Graph([])
