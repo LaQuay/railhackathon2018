@@ -38,10 +38,11 @@ class Algorithm:
                     distances[neighbour] = alternative_route
                     previous_vertices[neighbour] = current_vertex
 
-        path, current_vertex = deque(), dest
+        path = []
+        current_vertex = dest
         while previous_vertices[current_vertex] is not None:
-            path.appendleft(current_vertex)
+            path.insert(0, current_vertex)
             current_vertex = previous_vertices[current_vertex]
         if path:
-            path.appendleft(current_vertex)
+            path.insert(0, current_vertex)
         return path
