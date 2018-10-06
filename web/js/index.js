@@ -92,7 +92,7 @@
   function search() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
-
+        console.log(routes)
         var i = 0
         routes.forEach((route) => {
           map.addLayer({
