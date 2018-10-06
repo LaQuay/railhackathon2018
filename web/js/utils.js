@@ -8,7 +8,7 @@
 
   Koalas.Resources = {
     useMocks: false,
-    apiUrl: API_URL
+    apiUrl: 'http://localhost/api'//API_URL
   }
 
   Koalas.Util = {}
