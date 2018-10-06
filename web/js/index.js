@@ -175,8 +175,8 @@
             },
             "paint": {
               "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
-              "line-width": 3,
-              "line-gap-width": 1
+              "line-width": 1,
+              "line-gap-width": 3
             }
           };
 
