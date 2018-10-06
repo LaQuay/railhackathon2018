@@ -93,6 +93,7 @@ def init_graph():
 
 
 algorithm = init_graph()
+#algorithm.graph.update_edge("1.317", "1.318", 100)
 
 #info = get_dijkstra(coordfrom={"lat": 41.3926816, "lng": 2.1444228}, coordto={"lat": 41.3755693, "lng": 2.1284559})
 #algorithm.graph.update_edge("1.317", "1.318", 100)
