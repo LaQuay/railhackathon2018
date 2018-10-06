@@ -221,6 +221,7 @@ class ParserStops:
                 else:
                     item["shape"] = shape
                     item["cost"] = graph.get_edge_cost(stopid1, stopid2)
+                item["transbord"] = 0
                 info["path"].append(item)
                 lastline = stopdata["line"]
             elif lastline != stopdata["line"]:
@@ -233,7 +234,10 @@ class ParserStops:
                 item["cost"] = 0
                 info["path"].append(item)
                 if key is not None:
-                    transbordos += graph.get_edge_cost(stopid1, stopid2)
+                    item["transbord"] = graph.get_edge_cost(stopid1, stopid2)
+                    transbord += graph.get_edge_cost(stopid1, stopid2)
+                else:
+                    item["transbord"] = 0
             else:
                 info["path"][-1]["path"].append(pathpoint)
                 if shape is not None:
@@ -246,7 +250,7 @@ class ParserStops:
             cost += graph.get_edge_cost(stopid1, stopid2)
 
         info["cost"] = cost
-        info["transbordos"] = transbordos
+        info["transbord"] = transbord
 
         return info;
 
