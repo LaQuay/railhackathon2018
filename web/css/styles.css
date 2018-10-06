@@ -14,3 +14,7 @@ html, body {
   align-items:stretch;
   position:relative;
 }
+
+.search-button {
+  margin-top: 10px;
+}
