@@ -4,7 +4,7 @@
 
     _this.getRoute = (origin, destination) => {
       var promise = new Promise((resolve, reject) => {
-        $.get(`${Koalas.Resources.apiUrl}/`)
+        $.get(`${Koalas.Resources.apiUrl}/get-dijkstra/${origin[0]}/${origin[1]}/${destination[0]}/${destination[1]}/`)
           .then(response => {
             resolve(response)
           })
