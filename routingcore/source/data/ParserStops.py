@@ -193,7 +193,8 @@ class ParserStops:
                 "stopname": stopdata["name"],
                 "line": stopdata["line"],
                 "lat": stopdata["lat"],
-                "lng": stopdata["lng"]
+                "lng": stopdata["lng"],
+                "cost": 0
             }
 
             key = None
@@ -211,6 +212,11 @@ class ParserStops:
                 print("ERROR --- " + str(key))
 
             if lastline is None:
+                if key is None:
+                    pathpoint["cost"] = 0
+                else:
+                    pathpoint["cost"] = graph.get_edge_cost(stopid1, stopid2)
+
                 item = {}
                 item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
                 item["line"] = pathpoint["line"]
@@ -225,6 +231,11 @@ class ParserStops:
                 info["path"].append(item)
                 lastline = stopdata["line"]
             elif lastline != stopdata["line"]:
+                if key is None:
+                    pathpoint["cost"] = 0
+                else:
+                    pathpoint["cost"] = graph.get_edge_cost(stopid1, stopid2)
+
                 lastline = stopdata["line"]
                 item = {}
                 item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
@@ -239,6 +250,11 @@ class ParserStops:
                 else:
                     item["transbord"] = 0
             else:
+                if key is None:
+                    pathpoint["cost"] = 0
+                else:
+                    pathpoint["cost"] = graph.get_edge_cost(stopid1, stopid2)
+                    
                 info["path"][-1]["path"].append(pathpoint)
                 if shape is not None:
                     info["path"][-1]["shape"].append(shape)
