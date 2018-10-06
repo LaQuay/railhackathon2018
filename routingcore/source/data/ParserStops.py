@@ -183,7 +183,7 @@ class ParserStops:
         info = {"path": []}
         cost = 0
         lastline = None
-        transbordos = 0
+        transbord = 0
         #for stopid in path:
         for i in range(0,len(path)):
             stopid = path[i]
