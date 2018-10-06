@@ -32,22 +32,22 @@ def init_graph():
     #graph.print_graph()
 
     stopids = graph.vertices
-    #print(stopids)
 
     # TMB data
-    stopsTMB = ParserStops.read_stops_TMB(stopids)
-    stoptimesTMB = ParserStops.read_stoptimes_TMB(stopids, stopsTMB)
-    tripsTMB = ParserStops.read_trips_TMB(stopids, stopsTMB, stoptimesTMB)
-    routesTMB = ParserStops.read_routes_TMB()
-    
-    ParserStops.add_info_TMB(graph, stopsTMB, tripsTMB, routesTMB)
+    stopsTMB = ParserStops.read_stops("TMB", stopids)
+    stoptimesTMB = ParserStops.read_stoptimes("TMB", stopids, stopsTMB)
+    tripsTMB = ParserStops.read_trips("TMB", stopids, stopsTMB, stoptimesTMB)
+    routesTMB = ParserStops.read_routes("TMB")
+
 
     # FGC data
-    #stopsFGC = ParserStops.read_stops_FGC()
+    stopsFGC = ParserStops.read_stops("FGC", stopids)
+    stoptimesFGC = ParserStops.read_stoptimes("FGC", stopids, stopsFGC)
+    tripsFGC = ParserStops.read_trips("FGC", stopids, stopsFGC, stoptimesFGC)
+    routesFGC = ParserStops.read_routes("FGC")
 
-    
-    #print(str(stopsTMB))
-    #print(str(stopsFGC))
+    ParserStops.add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB)
+    ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
 
     return Algorithm(graph)
 

@@ -1,14 +1,5 @@
 import csv
 
-#maxLatitude = 41.4
-#minLatitude = 41.1
-#maxLongitude = 2.1
-#minLongitude = 2.0
-maxLatitude = 50
-minLatitude = 3
-maxLongitude = 3
-minLongitude = 1
-
 class ParserStops:
 
     def add_stop_to_stop_edges_TMB(graph):
@@ -40,10 +31,10 @@ class ParserStops:
         return data
 
 
-    def read_stops_TMB(stopids):
+    def read_stops(tag, stopids):
         data = {}
 
-        with open("data/TMB/stops.txt", "r") as f:
+        with open("data/" + tag + "/stops.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -59,10 +50,10 @@ class ParserStops:
                     }
         return data
 
-    def read_stoptimes_TMB(stopids, stopsTMB):
+    def read_stoptimes(tag, stopids, stopsTMB):
         data = {}
 
-        with open("data/TMB/stop_times.txt", "r") as f:
+        with open("data/" + tag + "/stop_times.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -88,10 +79,10 @@ class ParserStops:
 
         return dataroutes
 
-    def read_trips_TMB(stopids, stopsTMB, stoptimesTMB):
+    def read_trips(tag, stopids, stopsTMB, stoptimesTMB):
         data = {}
 
-        with open("data/TMB/trips.txt", "r") as f:
+        with open("data/" + tag + "/trips.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -103,10 +94,10 @@ class ParserStops:
 
         return data
 
-    def read_routes_TMB():
+    def read_routes(tag):
         data = {}
 
-        with open("data/TMB/routes.txt", "r") as f:
+        with open("data/" + tag + "/routes.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -117,7 +108,7 @@ class ParserStops:
 
         return data
 
-    def add_info_TMB(graph, stopsTMB, tripsTMB, routesTMB):
+    def add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB):
         def find_route(stopid):
             for routeid in tripsTMB:
                 if stopid in tripsTMB[routeid]:
@@ -137,7 +128,7 @@ class ParserStops:
                     "line": routesTMB[routeid]
                 }
 
-        graph.data = data
+        graph.data.update(data)
 
     def get_path_info(graph, path):
         info = {"path": []}
@@ -160,26 +151,3 @@ class ParserStops:
         info["cost"] = cost
 
         print(info)
-
-
-
-    def read_stops_FGC():
-        data = []
-
-        with open("data/stops_FGC.txt", "r") as f:
-            reader = csv.reader(f, delimiter=",")
-            next(reader, None)
-            for i, line in enumerate(reader):
-                lat = float(line[0])
-                lng = float(line[1])
-                if minLatitude <= lat <= maxLatitude and minLongitude <= lng <= maxLongitude:
-                    id = line[3]
-                    name = line[2]
-
-                    data.append({
-                        "id": id,
-                        "name": name,
-                        "lat": lat,
-                        "lng": lng
-                    })
-        return data
