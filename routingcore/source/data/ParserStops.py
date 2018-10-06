@@ -1,4 +1,7 @@
 import csv
+from math import sin, cos, sqrt, atan2, radians
+
+inf = float('inf')
 
 class ParserStops:
 
@@ -163,7 +166,9 @@ class ParserStops:
                 routeid = find_route(stopid)
                 data[stopid] = {
                     "name": stopdata["name"],
-                    "line": routesTMB[routeid]
+                    "line": routesTMB[routeid],
+                    "lat": stopdata["lat"],
+                    "lng": stopdata["lng"]
                 }
 
         graph.data.update(data)
@@ -173,15 +178,36 @@ class ParserStops:
 
         info = {"path": []}
         cost = 0
+        lastline = None
         for stopid in path:
             stopdata = graph.data[stopid]
-            info["path"].append({
+            print(str(stopdata))
+            pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
-                "line": stopdata["line"]
-            })
+                "line": stopdata["line"],
+                "lat": stopdata["lat"],
+                "lng": stopdata["lng"]
+            }
 
-            print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
+            if lastline is None:
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = []
+                info["path"].append(item)
+                lastline = stopdata["line"]
+            elif lastline != stopdata["line"]:
+                lastline = stopdata["line"]
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = [pathpoint]
+                info["path"].append(item)
+            else:
+                info["path"][-1]["path"].append(pathpoint)
+
+            #print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
 
         for i in range(0,len(path)-1):
             stopid1 = path[i]
@@ -189,3 +215,39 @@ class ParserStops:
             cost += graph.get_edge_cost(stopid1, stopid2)
 
         info["cost"] = cost
+
+        return info;
+
+    def get_near_stopnodes(graph, lat, lng):
+        def distance_between_coords(lat1,lng1, lat2,lng2):
+            # approximate radius of earth in km
+            R = 6373.0
+
+            lat1 = radians(lat1)
+            lon1 = radians(lng1)
+            lat2 = radians(lat2)
+            lon2 = radians(lng2)
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
+
+            a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+            c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+            distance = R * c
+
+            return distance
+
+        node1 = None
+        node2 = None
+        dmax1 = inf
+        dmax2 = inf
+        for stopid in graph.data:
+            d = distance_between_coords(lat, lng, graph.data[stopid]["lat"], graph.data[stopid]["lng"])
+
+            if d < dmax1:
+                dmax1 = d
+                node1 = stopid
+
+        return node1
+
+    
