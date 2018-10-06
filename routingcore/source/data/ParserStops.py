@@ -174,14 +174,11 @@ class ParserStops:
         graph.data.update(data)
 
     def get_path_info(graph, path):
-        print("PATH ----------------")
-
         info = {"path": []}
         cost = 0
         lastline = None
         for stopid in path:
             stopdata = graph.data[stopid]
-            print(str(stopdata))
             pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
@@ -218,7 +215,7 @@ class ParserStops:
 
         return info;
 
-    def get_near_stopnodes(graph, lat, lng):
+    def get_near_stopnodes(graph, lat, lng, maxdist=0.5):
         def distance_between_coords(lat1,lng1, lat2,lng2):
             # approximate radius of earth in km
             R = 6373.0
@@ -239,15 +236,25 @@ class ParserStops:
 
         node1 = None
         node2 = None
+        node3 = None
         dmax1 = inf
         dmax2 = inf
+        dmax3 = inf
         for stopid in graph.data:
+            # d is in kilometers
             d = distance_between_coords(lat, lng, graph.data[stopid]["lat"], graph.data[stopid]["lng"])
+            
+            if d <= maxdist:
+                if d <= dmax1:
+                    dmax1,dmax2,dmax3 = d,dmax1,dmax3
+                    node1,node2,node3 = stopid,node1,node2
+                elif d <= dmax2:
+                    dmax2,dmax3 = d,dmax2
+                    node2,node3 = stopid,node2
+                elif d <= dmax3:
+                    dmax3 = d
+                    node3 = stopid
 
-            if d < dmax1:
-                dmax1 = d
-                node1 = stopid
-
-        return node1
+        return [node1, node2, node3]
 
     
