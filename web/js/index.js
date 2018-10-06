@@ -95,9 +95,11 @@
 
         var i = 0
         routes.forEach((route) => {
-          map.addLayer({
+          var layer = {
             "id": route.type + '_' + i,
             "type": "line",
+            
+            
             "source": {
               "type": "geojson",
               "data": {
@@ -114,12 +116,20 @@
             "layout": {
               "line-join": "round",
               "line-cap": "round",
+              
             },
             "paint": {
               "line-color": route.type === 'walk' ? '#888' : route.color,
               "line-width": 3
+            
             }
-          })
+     
+          };
+
+          if (route.type === 'walk'){
+            layer.paint['line-dasharray'] = [7,3]
+          }
+          map.addLayer(layer)
 
           i++
         })
