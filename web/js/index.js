@@ -19,49 +19,6 @@
     'T3': '#0C7557'
   }
 
-  function initializeMetroStations() {
-    metroDataAccess.getMetroStations()
-      .then((metroStations) => {
-        var layer = {
-          "id": "points" + Math.floor(Math.random() * 1000000),
-          "type": "symbol",
-          "source": {
-            "type": "geojson",
-            "data": {
-              "type": "FeatureCollection",
-              "features": metroStations.map((metroStation) => {
-                return {
-                  "type": 'Feature',
-                  "geometry": {
-                    "type": 'Point',
-                    "coordinates": [metroStation.location[1], metroStation.location[0]]
-                  },
-                  "propeties": {
-                    "title": metroStation.name,
-                    "icon": "metro"
-                  }
-                }
-              })
-            }
-          },
-          "layout": {
-            "icon-image": "{icon}-15",
-            "text-field": "{title}",
-            "text-font": ["Open Sans Regular"],
-            "text-offset": [-0.5, 0],
-            "text-anchor": "top",
-            "text-justify": "center",
-            "text-size": 32
-          }
-        }
-        map.addLayer(layer);
-        activeLayers.push(layer)
-      })
-      .catch((err) => {
-        // TODO
-      })
-  }
-
   function initializeMap() {
     mapboxgl.accessToken = 'pk.eyJ1Ijoia29hbGFzLTIwMTgiLCJhIjoiY2ptd2R6dHI1MDlmMjNrcGpnZnh3Z21lZiJ9.tl5eqrIsTlvZnhE_ceaf4Q'
   
@@ -76,7 +33,7 @@
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on('load', function() {
-      initializeMetroStations()
+      // Ignore
     })
   }
 
@@ -174,7 +131,7 @@
               "data": {
                 "type": "Feature",
                 "properties": {
-                  "title": route.cost
+                  "title": ''
                 },
                 "geometry": {
                   "type": "LineString",
