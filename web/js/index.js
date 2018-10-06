@@ -6,6 +6,18 @@
   var routingDataAccess = Koalas.Util.getDataAccess('Routing')
   var metroDataAccess = Koalas.Util.getDataAccess('Metro')
 
+  var lineColor = {
+    'L1': '#CB2508',
+    'L2': '#90278E',
+    'L3': '#067634',
+    'L4': '#FFC10D',
+    'L5': '#006B9D',
+    'L9S': '#DF8D33',
+    'T1': '#0C7557',
+    'T2': '#0C7557',
+    'T3': '#0C7557'
+  }
+
   function initializeMetroStations() {
     metroDataAccess.getMetroStations()
       .then((metroStations) => {
@@ -71,9 +83,6 @@
 
     $('#inputOrigin')[0].value = selectedOrigin.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
   window.onDestinationClick = function(name, lat, lng) {
@@ -84,22 +93,17 @@
 
     $('#inputDestination')[0].value = selectedDestination.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
-  function search() {
+  window.search = function() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
-
+        console.log(routes)
         var i = 0
-        routes.forEach((route) => {
+        routes.path.forEach((route) => {
           var layer = {
             "id": route.type + '_' + i,
             "type": "line",
-            
-            
             "source": {
               "type": "geojson",
               "data": {
@@ -107,8 +111,8 @@
                 "properties": {},
                 "geometry": {
                   "type": "LineString",
-                  "coordinates": route.path.map(function(coordinate) {
-                    return [coordinate[1], coordinate[0]]
+                  "coordinates": route.path.map(function(point) {
+                    return [point.lng, point.lat]
                   })
                 }
               }
@@ -119,15 +123,13 @@
               
             },
             "paint": {
-              "line-color": route.type === 'walk' ? '#888' : route.color,
+              "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
               "line-width": 3
-            
             }
-     
           };
 
-          if (route.type === 'walk'){
-            layer.paint['line-dasharray'] = [7,3]
+          if (route.type === 'walk') {
+            layer.paint['line-dasharray'] = [5,3]
           }
           map.addLayer(layer)
 

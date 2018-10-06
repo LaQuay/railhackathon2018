@@ -1,6 +1,4 @@
 (() => {
-  Koalas.DataAccess = {}
-
   Koalas.DataAccess.RoutingMock = () => {
     var _this = {}
 

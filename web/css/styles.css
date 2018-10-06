@@ -18,3 +18,7 @@ html, body {
 .search-button {
   margin-top: 10px;
 }
+
+.grey-background {
+  background-color: #eee;
+}

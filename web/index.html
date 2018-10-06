@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>KoalaMap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
@@ -12,21 +13,25 @@
 <body>
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
     <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">KoalaMap</span>
+        <span class="mdl-layout-title">KoalaMap <img src="images/koala.png" alt="HKoala" style="width:30px;height:25px;"></span>
         <nav class="mdl-navigation">
             <div class="mdl-navigation__link" href="">
                 <form action="#">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" id="inputOrigin">
-                        <label class="mdl-textfield__label" for="inputOrigin">Origen</label>
+                        <label class="mdl-textfield__label" for="inputOrigin">Or&iacute;gen</label>
                     </div>
                 </form>
                 <form action="#">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" id="inputDestination">
-                        <label class="mdl-textfield__label" for="inputDestination">Dest'i</label>
+                        <label class="mdl-textfield__label" for="inputDestination">Dest&iacute;</label>
                     </div>
                 </form>
+
+                <button class="mdl-button mdl-js-button mdl-button--raised" onclick="search()">
+                    Buscar
+                </button>
             </div>
 
             <div id="resultList">
