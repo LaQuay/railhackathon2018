@@ -83,9 +83,6 @@
 
     $('#inputOrigin')[0].value = selectedOrigin.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
   window.onDestinationClick = function(name, lat, lng) {
@@ -96,12 +93,10 @@
 
     $('#inputDestination')[0].value = selectedDestination.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
-  function search() {
+  window.search = function() {
+    alert('search')
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
         console.log(routes)
