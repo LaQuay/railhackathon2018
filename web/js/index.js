@@ -60,80 +60,81 @@
 
     map.on('load', function() {
       initializeMetroStations()
-
-      var origin = [41.376193, 2.121745]
-      var destination = [41.371374, 2.099516]
-      routingDataAccess.getRoute(origin, destination)
-        .then((routes) => {
-
-          var i = 0
-
-          routes.forEach((route) => {
-            map.addLayer({
-              "id": route.type + '_' + i,
-              "type": "line",
-              "source": {
-                "type": "geojson",
-                "data": {
-                  "type": "Feature",
-                  "properties": {},
-                  "geometry": {
-                    "type": "LineString",
-                    "coordinates": route.path.map(function(coordinate) {
-                      return [coordinate[1], coordinate[0]]
-                    })
-                  }
-                }
-              },
-              "layout": {
-                "line-join": "round",
-                "line-cap": "round",
-              },
-              "paint": {
-                "line-color": route.type === 'walk' ? '#888' : route.color,
-                "line-width": 3
-              }
-            })
-
-            i++
-          })
-        })
-        .catch((err) => {
-          // La crida ha fallat
-        })
     })
   }
 
-  window.onOriginClick = function(address) {
+  window.onOriginClick = function(name, lat, lng) {
     selectedOrigin = {
-      name: address.formatted_address,
-      location: [address.geometry.location.lat, address.geometry.location.lng]
+      name: name,
+      location: [lat, lng]
     }
 
     $('#inputOrigin')[0].value = selectedOrigin.name
     $('#resultList').html('')
+
+    if (selectedOrigin && selectedDestination)
+      search()
   }
 
-  window.onDestinationClick = function(address) {
+  window.onDestinationClick = function(name, lat, lng) {
     selectedDestination = {
-      name: address.formatted_address,
-      location: [address.geometry.location.lat, address.geometry.location.lng]
+      name: name,
+      location: [lat, lng]
     }
 
     $('#inputDestination')[0].value = selectedDestination.name
     $('#resultList').html('')
+
+    if (selectedOrigin && selectedDestination)
+      search()
   }
 
-  window.onSearchClick = function() {
-    
+  function search() {
+    routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
+      .then((routes) => {
+
+        var i = 0
+        routes.forEach((route) => {
+          map.addLayer({
+            "id": route.type + '_' + i,
+            "type": "line",
+            "source": {
+              "type": "geojson",
+              "data": {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                  "type": "LineString",
+                  "coordinates": route.path.map(function(coordinate) {
+                    return [coordinate[1], coordinate[0]]
+                  })
+                }
+              }
+            },
+            "layout": {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            "paint": {
+              "line-color": route.type === 'walk' ? '#888' : route.color,
+              "line-width": 3
+            }
+          })
+
+          i++
+        })
+      })
+      .catch((err) => {
+        // La crida ha fallat
+      })
   }
 
   function callGoogleApi(value, callbackName) {
-    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM`)
+    $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&region=es&key=AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM`)
       .then(results => {
         $('#resultList').html('')
         if (results.status === 'OK') {
-          $('#resultList').append(`<a class="mdl-navigation__link" onclick='${callbackName}(${JSON.stringify(results.results[0])})'>${results.results[0].formatted_address}</a>`)
+          $('#resultList').append(`<a class="mdl-navigation__link" onclick='${callbackName}("${results.results[0].formatted_address}", ${results.results[0].geometry.location.lat}, ${results.results[0].geometry.location.lng})'>${results.results[0].formatted_address}</a>`)
           results.results[0].address_components.forEach(result => {
             $('#resultList').append(`<a class="mdl-navigation__link">${result.long_name}</a>`)
           })
@@ -143,12 +144,17 @@
 
   initializeMap();
 
-  // Gina
   $('#inputOrigin').on('input', function(e){
-    callGoogleApi(e.target.value, 'onOriginClick')
+    if (e.target.value)
+      callGoogleApi(e.target.value, 'onOriginClick')
+    else
+      $('#resultList').html('')
   })
 
   $('#inputDestination').on('input', function(e){
-    callGoogleApi(e.target.value, 'onDestinationClick')
+    if (e.target.value)
+      callGoogleApi(e.target.value, 'onDestinationClick')
+    else
+      $('#resultList').html('')
   })
 })();
