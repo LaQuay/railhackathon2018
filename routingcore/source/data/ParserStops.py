@@ -31,10 +31,10 @@ class ParserStops:
         return data
 
 
-    def read_stops_TMB(stopids):
+    def read_stops(tag, stopids):
         data = {}
 
-        with open("data/TMB/stops.txt", "r") as f:
+        with open("data/" + tag + "/stops.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -50,10 +50,29 @@ class ParserStops:
                     }
         return data
 
+    def read_stops_TRAM(stopids):
+        data = {}
+
+        with open("data/TRAM/stops.txt", "r", encoding='utf-8') as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                id = line[0]
+                if id in stopids:
+                    lat = float(line[3])
+                    lng = float(line[4])
+                    name = line[1]
+                    data[id] = {
+                        "name": name,
+                        "lat": lat,
+                        "lng": lng
+                    }
+        return data
+
     def read_stops_FGC(stopids):
         data = {}
 
-        with open("data/FGC/stops.txt", "r") as f:
+        with open("data/FGC/stops.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -72,7 +91,7 @@ class ParserStops:
     def read_stoptimes(tag, stopids, stopsTMB):
         data = {}
 
-        with open("data/" + tag + "/stop_times.txt", "r") as f:
+        with open("data/" + tag + "/stop_times.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -101,7 +120,7 @@ class ParserStops:
     def read_trips(tag, stopids, stopsTMB, stoptimesTMB):
         data = {}
 
-        with open("data/" + tag + "/trips.txt", "r") as f:
+        with open("data/" + tag + "/trips.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
@@ -116,7 +135,7 @@ class ParserStops:
     def read_routes(tag):
         data = {}
 
-        with open("data/" + tag + "/routes.txt", "r") as f:
+        with open("data/" + tag + "/routes.txt", "r", encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):

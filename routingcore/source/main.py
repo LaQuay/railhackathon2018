@@ -21,7 +21,7 @@ def index():
     return "Dijkstra A to E: " + str(get_dijkstra())
 
 def get_dijkstra():
-    path = algorithm.dijkstra("1.514", "1.317")
+    path = algorithm.dijkstra("10", "1.317")
     ParserStops.get_path_info(algorithm.graph, path)
 
     return path
@@ -30,28 +30,36 @@ def init_graph():
     graph = Graph([])
     ParserStops.add_stop_to_stop_edges(graph, "TMB")
     ParserStops.add_stop_change_stop_edges(graph, "TMB")
-    ParserStops.add_stop_to_stop_edges(graph, "FGC")
-    ParserStops.add_stop_change_stop_edges(graph, "FGC")
+    ParserStops.add_stop_to_stop_edges(graph, "TRAM")
+    ParserStops.add_stop_change_stop_edges(graph, "TRAM")
+    #ParserStops.add_stop_to_stop_edges(graph, "FGC")
+    #ParserStops.add_stop_change_stop_edges(graph, "FGC")
     #graph.print_graph()
 
     stopids = graph.vertices
     #print(stopids)
 
     # TMB data
-    stopsTMB = ParserStops.read_stops_TMB(stopids)
+    stopsTMB = ParserStops.read_stops("TMB", stopids)
     stoptimesTMB = ParserStops.read_stoptimes("TMB", stopids, stopsTMB)
     tripsTMB = ParserStops.read_trips("TMB", stopids, stopsTMB, stoptimesTMB)
     routesTMB = ParserStops.read_routes("TMB")
 
+    # TRAM data
+    stopsTRAM = ParserStops.read_stops_TRAM(stopids)
+    stoptimesTRAM = ParserStops.read_stoptimes("TRAM", stopids, stopsTRAM)
+    tripsTRAM = ParserStops.read_trips("TRAM", stopids, stopsTRAM, stoptimesTRAM)
+    routesTRAM = ParserStops.read_routes("TRAM")
 
     # FGC data
-    stopsFGC = ParserStops.read_stops_FGC(stopids)
-    stoptimesFGC = ParserStops.read_stoptimes("FGC", stopids, stopsFGC)
-    tripsFGC = ParserStops.read_trips("FGC", stopids, stopsFGC, stoptimesFGC)
-    routesFGC = ParserStops.read_routes("FGC")
+    #stopsFGC = ParserStops.read_stops_FGC(stopids)
+    #stoptimesFGC = ParserStops.read_stoptimes("FGC", stopids, stopsFGC)
+    #tripsFGC = ParserStops.read_trips("FGC", stopids, stopsFGC, stoptimesFGC)
+    #routesFGC = ParserStops.read_routes("FGC")
 
     ParserStops.add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB)
-    ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
+    ParserStops.add_info_to_graph(graph, stopsTRAM, tripsTRAM, routesTRAM)
+   #ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
 
     return Algorithm(graph)
 
