@@ -148,7 +148,7 @@
           var shape = []
           if (route.shape && route.shape.length > 0) {
             route.shape.forEach(singleShape => singleShape.reverse())
-            shape = route.shape.flat()
+            shape = route.shape.reduce((acc, val) => acc.concat(val), [])
           } else {
             shape = route.path
           }
@@ -175,8 +175,7 @@
             },
             "paint": {
               "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
-              "line-width": 1,
-              "line-gap-width": 3
+              "line-width": 3
             }
           };
 
