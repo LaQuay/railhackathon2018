@@ -185,7 +185,9 @@ class ParserStops:
             pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
-                "line": stopdata["line"]
+                "line": stopdata["line"],
+                "lat": stopdata["lat"],
+                "lng": stopdata["lng"]
             }
 
             if lastline is None:
