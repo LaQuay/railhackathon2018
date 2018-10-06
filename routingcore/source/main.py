@@ -21,11 +21,12 @@ inf = float('inf')
 def index():
     return jsonify(get_dijkstra())
 
-def get_dijkstra():
-    path = algorithm.dijkstra("10", "1.317")
+def get_dijkstra(coordfrom, coordto):
+    nodefrom = ParserStops.get_near_stopnodes(algorithm.graph, coordfrom["lat"], coordfrom["lng"])
+    nodeto = ParserStops.get_near_stopnodes(algorithm.graph, coordto["lat"], coordto["lng"])
+    path = algorithm.dijkstra(nodefrom, nodeto)
     info = ParserStops.get_path_info(algorithm.graph, path)
-    print('Info gotten')
-    print(str(info))
+
     return info
 
 def init_graph():
@@ -67,10 +68,10 @@ def init_graph():
 
 
 algorithm = init_graph()
-path = get_dijkstra()
+info = get_dijkstra(coordfrom={"lat": 41.379, "lng": 2.113}, coordto={"lat": 41.383, "lng": 2.130})
 
 algorithm.graph.update_edge("1.516","1.517",inf)
-path = get_dijkstra()
+info = get_dijkstra(coordfrom={"lat": 41.379, "lng": 2.113}, coordto={"lat": 41.383, "lng": 2.130})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

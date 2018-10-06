@@ -1,4 +1,7 @@
 import csv
+from math import sin, cos, sqrt, atan2, radians
+
+inf = float('inf')
 
 class ParserStops:
 
@@ -163,7 +166,9 @@ class ParserStops:
                 routeid = find_route(stopid)
                 data[stopid] = {
                     "name": stopdata["name"],
-                    "line": routesTMB[routeid]
+                    "line": routesTMB[routeid],
+                    "lat": stopdata["lat"],
+                    "lng": stopdata["lng"]
                 }
 
         graph.data.update(data)
@@ -180,7 +185,9 @@ class ParserStops:
             pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
-                "line": stopdata["line"]
+                "line": stopdata["line"],
+                "lat": stopdata["lat"],
+                "lng": stopdata["lng"]
             }
 
             if lastline is None:
@@ -209,28 +216,38 @@ class ParserStops:
 
         info["cost"] = cost
 
-        print(info)
-        return info
+        return info;
 
+    def get_near_stopnodes(graph, lat, lng):
+        def distance_between_coords(lat1,lng1, lat2,lng2):
+            # approximate radius of earth in km
+            R = 6373.0
 
+            lat1 = radians(lat1)
+            lon1 = radians(lng1)
+            lat2 = radians(lat2)
+            lon2 = radians(lng2)
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
 
-    def read_stops_FGC():
-        data = []
+            a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+            c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-        with open("data/stops_FGC.txt", "r") as f:
-            reader = csv.reader(f, delimiter=",")
-            next(reader, None)
-            for i, line in enumerate(reader):
-                lat = float(line[0])
-                lng = float(line[1])
-                if minLatitude <= lat <= maxLatitude and minLongitude <= lng <= maxLongitude:
-                    id = line[3]
-                    name = line[2]
+            distance = R * c
 
-                    data.append({
-                        "id": id,
-                        "name": name,
-                        "lat": lat,
-                        "lng": lng
-                    })
-        return data
+            return distance
+
+        node1 = None
+        node2 = None
+        dmax1 = inf
+        dmax2 = inf
+        for stopid in graph.data:
+            d = distance_between_coords(lat, lng, graph.data[stopid]["lat"], graph.data[stopid]["lng"])
+
+            if d < dmax1:
+                dmax1 = d
+                node1 = stopid
+
+        return node1
+
+    
