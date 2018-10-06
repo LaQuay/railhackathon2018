@@ -2,6 +2,7 @@
   var map = null
   var selectedOrigin = null
   var selectedDestination = null
+  var activeLayers = []
   
   var routingDataAccess = Koalas.Util.getDataAccess('Routing')
   var metroDataAccess = Koalas.Util.getDataAccess('Metro')
@@ -21,8 +22,8 @@
   function initializeMetroStations() {
     metroDataAccess.getMetroStations()
       .then((metroStations) => {
-        map.addLayer({
-          "id": "points",
+        var layer = {
+          "id": "points" + Math.floor(Math.random() * 1000000),
           "type": "symbol",
           "source": {
             "type": "geojson",
@@ -50,7 +51,9 @@
             "text-offset": [0, 0.6],
             "text-anchor": "top"
           }
-        });
+        }
+        map.addLayer(layer);
+        activeLayers.push(layer)
       })
       .catch((err) => {
         // TODO
@@ -140,6 +143,11 @@
   }; 
 
   window.search = function() {
+    activeLayers.forEach((layer) => {
+      map.removeLayer(layer.id)
+    })
+    activeLayers = []
+
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
         console.log(routes)
@@ -153,7 +161,7 @@
             shape = route.path
           }
           var layer = {
-            "id": route.type + '_' + i,
+            "id": route.type + '_' + Math.floor(Math.random() * 1000000),
             "type": "line",
             "source": {
               "type": "geojson",
@@ -183,12 +191,15 @@
             layer.paint['line-dasharray'] = [5,3]
           }
           map.addLayer(layer)
+          activeLayers.push(layer)
 
-          map.addLayer({
-            "id": route.line,
+          var circlesLayer = {
+            "id": route.line + Math.floor(Math.random() * 1000000),
             "type": 'fill',
             "source": createGeoJSONCircles(route.path, 0.02)
-          })
+          }
+          map.addLayer(circlesLayer)
+          activeLayers.push(circlesLayer)
 
           i++
         })
