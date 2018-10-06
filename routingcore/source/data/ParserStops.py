@@ -1,25 +1,57 @@
 import csv
 
-maxLatitude = 41.4
-minLatitude = 41.1
-maxLongitude = 2.1
-minLongitude = 2.0
+#maxLatitude = 41.4
+#minLatitude = 41.1
+#maxLongitude = 2.1
+#minLongitude = 2.0
+maxLatitude = 50
+minLatitude = 3
+maxLongitude = 3
+minLongitude = 1
 
 class ParserStops:
 
-    def read_stops_TMB():
+    def add_stop_to_stop_edges_TMB(graph):
+        data = {}
+
+        with open("data/TMB/stop_to_stop.txt", "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                stopid1 = line[0]
+                stopid2 = line[1]
+                cost = int(line[2])
+                graph.add_edge(stopid1, stopid2, cost)
+                graph.add_edge(stopid2, stopid1, cost)
+        return data
+
+    def add_stop_change_stop_edges_TMB(graph):
+        data = {}
+
+        with open("data/TMB/stop_change_stop.txt", "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                stopid1 = line[0]
+                stopid2 = line[1]
+                cost = int(line[2])
+                graph.add_edge(stopid1, stopid2, cost)
+                graph.add_edge(stopid2, stopid1, cost)
+        return data
+
+
+    def read_stops_TMB(stopids):
         data = {}
 
         with open("data/TMB/stops.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
             next(reader, None)
             for i, line in enumerate(reader):
-                lat = float(line[3])
-                lng = float(line[4])
-                if minLatitude <= lat <= maxLatitude and minLongitude <= lng <= maxLongitude:
-                    id = line[0]
+                id = line[0]
+                if id in stopids:
+                    lat = float(line[3])
+                    lng = float(line[4])
                     name = line[2]
-
                     data[id] = {
                         "name": name,
                         "lat": lat,
@@ -27,10 +59,10 @@ class ParserStops:
                     }
         return data
 
-    def read_stoptimes_TMB(stopsTMB):
+    def read_stoptimes_TMB(stopids, stopsTMB):
         data = {}
         #stopids = [d['id'] for d in stopsTMB]
-        stopids = sorted(stopsTMB.keys(), reverse=True)
+        #stopids = sorted(stopsTMB.keys(), reverse=True)
 
         with open("data/TMB/stop_times.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
@@ -58,7 +90,7 @@ class ParserStops:
 
         return dataroutes
 
-    def read_trips_TMB(stopsTMB, stoptimesTMB):
+    def read_trips_TMB(stopids, stopsTMB, stoptimesTMB):
         data = {}
 
         with open("data/TMB/trips.txt", "r") as f:
@@ -83,7 +115,7 @@ class ParserStops:
                 stopid2 = stopids[i+1]
 
                 # TODO: cost of edge
-                graph.add_edge(stopid1, stopid2, 5)
+                #graph.add_edge(stopid1, stopid2, 20)
 
             for stopid in stopids:
                 stopdata = stopsTMB[stopid]

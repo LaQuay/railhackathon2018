@@ -20,22 +20,30 @@ def index():
     return "Dijkstra A to E: " + str(get_dijkstra())
 
 def get_dijkstra():
-    path = algorithm.dijkstra("2.3001", "2.1153")
+    path = algorithm.dijkstra("1.516", "1.315")
     ParserStops.get_path_info(algorithm.graph, path)
 
     return path
 
 def init_graph():
-    stopsTMB = ParserStops.read_stops_TMB()
-    stoptimesTMB = ParserStops.read_stoptimes_TMB(stopsTMB)
-    tripsTMB = ParserStops.read_trips_TMB(stopsTMB, stoptimesTMB)
+    graph = Graph([])
+    ParserStops.add_stop_to_stop_edges_TMB(graph)
+    ParserStops.add_stop_change_stop_edges_TMB(graph)
+    #graph.print_graph()
 
+    stopids = graph.vertices
+    #print(stopids)
+
+    # TMB data
+    stopsTMB = ParserStops.read_stops_TMB(stopids)
+    stoptimesTMB = ParserStops.read_stoptimes_TMB(stopids, stopsTMB)
+    tripsTMB = ParserStops.read_trips_TMB(stopids, stopsTMB, stoptimesTMB)
+
+    # FGC data
     #stopsFGC = ParserStops.read_stops_FGC()
 
-    graph = Graph([])
     ParserStops.add_routes_TMB(graph, stopsTMB, tripsTMB)
     
-    #graph.print_graph()
     #print(str(stopsTMB))
     #print(str(stopsFGC))
 
