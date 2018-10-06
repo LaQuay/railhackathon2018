@@ -1,0 +1,109 @@
+route_id,route_short_name,route_long_name,route_type,route_url,route_color,route_text_color
+1.1,L1,Hospital de Bellvitge - Fondo,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L1,CE1126,FFFFFF
+1.2,L2,Paral·lel - Badalona Pompeu Fabra,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L2,93248F,FFFFFF
+1.3,L3,Zona Universitària - Trinitat Nova,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L3,1EB53A,FFFFFF
+1.4,L4,La Pau - Trinitat Nova,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L4,F7A30E,000000
+1.5,L5,Cornellà Centre - Vall d'Hebron,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L5,005A97,FFFFFF
+1.94,L9N,La Sagrera - Can Zam,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L9N,FB712B,FFFFFF
+1.91,L9S,Aeroport T1 - Zona Universitària,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L9S,FB712B,FFFFFF
+1.104,L10N,La Sagrera - Gorg,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L10N,00A6D6,FFFFFF
+1.101,L10S,Foc - Collblanc,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L10S,00A6D6,FFFFFF
+1.11,L11,Trinitat Nova - Can Cuiàs,1,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/L11,89B94C,FFFFFF
+1.99,FM,Paral·lel - Parc de Montjuïc,7,https://www.tmb.cat/ca/barcelona/metro/-/lineametro/FM,004C38,FFFFFF
+2.220,D20,Pg. Marítim / Ernest Lluch,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/D20,93117e,FFFFFF
+2.240,D40,Pl. Espanya / Via Favència,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/D40,93117e,FFFFFF
+2.250,D50,Paral·lel / Ciutat Meridiana,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/D50,93117e,FFFFFF
+2.204,H4,Zona Universitària / Bon Pastor,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H4,009ee0,FFFFFF
+2.206,H6,Zona Universitària / Fabra i Puig,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H6,009ee0,FFFFFF
+2.208,H8,Camp Nou / La Maquinista,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H8,009ee0,FFFFFF
+2.210,H10,Badal / Olímpic de Badalona,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H10,009ee0,FFFFFF
+2.212,H12,Gornal / Besòs Verneda,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H12,009ee0,FFFFFF
+2.214,H14,Paral·lel / Sant Adrià,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H14,009ee0,FFFFFF
+2.216,H16,Pg. Zona Franca / Fòrum Campus Besòs,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/H16,009ee0,FFFFFF
+2.203,V3,Zona Franca / Can Caralleu,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V3,6ab023,FFFFFF
+2.205,V5,Mare de Déu de Port / Pedralbes,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V5,6ab023,FFFFFF
+2.207,V7,Pl. Espanya / Sarrià,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V7,6ab023,FFFFFF
+2.209,V9,Poble-sec / Sarrià,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V9,6ab023,FFFFFF
+2.211,V11,Estació Marítima (WTC) / Bonanova,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V11,6ab023,FFFFFF
+2.213,V13,Pla de Palau / Av. Tibidabo,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V13,6ab023,FFFFFF
+2.215,V15,Barceloneta / Vall d'Hebron,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V15,6ab023,FFFFFF
+2.217,V17,Port Vell / Carmel,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V17,6ab023,FFFFFF
+2.221,V21,Pg. Marítim / Montbau,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V21,6ab023,FFFFFF
+2.227,V27,Pg. Marítim / Canyelles,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V27,6ab023,FFFFFF
+2.229,V29,Diagonal Mar / Roquetes,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V29,6ab023,FFFFFF
+2.231,V31,Mar Bella / Trinitat Vella,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V31,6ab023,FFFFFF
+2.233,V33,Fòrum Campus Besòs / Santa Coloma,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/V33,6ab023,FFFFFF
+2.6,6,Pg. Manuel Girona / Poblenou,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/6,DC241F,FFFFFF
+2.7,7,Fòrum / Zona Universitària,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/7,DC241F,FFFFFF
+2.11,11,Trinitat Vella / Roquetes,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/11,DC241F,FFFFFF
+2.13,13,Mercat Sant Antoni / Parc de Montjuïc,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/13,DC241F,FFFFFF
+2.19,19,Pl. Urquinaona / Sant Genís,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/19,DC241F,FFFFFF
+2.21,21,Paral·lel / El Prat,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/21,DC241F,FFFFFF
+2.22,22,Pl. Catalunya / Av. Tibidabo,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/22,DC241F,FFFFFF
+2.23,23,Pl. Espanya / Parc Logístic,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/23,DC241F,FFFFFF
+2.24,24,Pl. Catalunya / El Carmel,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/24,DC241F,FFFFFF
+2.27,27,Estació de Sants / Roquetes,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/27,DC241F,FFFFFF
+2.33,33,Zona Universitària / Verneda,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/33,DC241F,FFFFFF
+2.34,34,Pg. Manuel Girona / Pl. Virrei Amat,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/34,DC241F,FFFFFF
+2.39,39,Barceloneta / Horta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/39,DC241F,FFFFFF
+2.45,45,Pg. Marítim / Horta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/45,DC241F,FFFFFF
+2.46,46,Pl. Espanya / Aeroport BCN,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/46,DC241F,FFFFFF
+2.47,47,Pl. Catalunya / Canyelles,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/47,DC241F,FFFFFF
+2.52,52,Pl. Catalunya / Collblanc,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/52,DC241F,FFFFFF
+2.54,54,Estació del Nord / Campus Nord,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/54,DC241F,FFFFFF
+2.55,55,Parc de Montjuïc / Pl. Catalana,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/55,DC241F,FFFFFF
+2.59,59,Poblenou / Pl. Reina Maria Cristina,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/59,DC241F,FFFFFF
+2.60,60,Besòs Verneda / Av. Esplugues,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/60,DC241F,FFFFFF
+2.62,62,Pl. Catalunya / Ciutat Meridiana,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/62,DC241F,FFFFFF
+2.63,63,Pl. Universitat / Sant Joan Despí,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/63,DC241F,FFFFFF
+2.65,65,Pl. Espanya / El Prat,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/65,DC241F,FFFFFF
+2.67,67,Pl. Catalunya / Cornellà,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/67,DC241F,FFFFFF
+2.68,68,Hospital Clínic / Cornellà,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/68,DC241F,FFFFFF
+2.70,70,Rambla de Badal / Bonanova,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/70,DC241F,FFFFFF
+2.75,75,Les Corts / Av. Tibidabo,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/75,DC241F,FFFFFF
+2.76,76,Sant Genís / Ciutat Meridiana,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/76,DC241F,FFFFFF
+2.78,78,Estació de Sants / Sant Joan Despí,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/78,DC241F,FFFFFF
+2.79,79,Pl. Espanya / <M> Av. Carrilet,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/79,DC241F,FFFFFF
+2.91,91,Manso / La Bordeta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/91,DC241F,FFFFFF
+2.92,92,Pg. Marítim / Av. Tibidabo,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/92,DC241F,FFFFFF
+2.94,94,Barri Almeda / Fontsanta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/94,DC241F,FFFFFF
+2.95,95,Barri Almeda / Pl. Fontsanta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/95,DC241F,FFFFFF
+2.96,96,<M> La Sagrera / Montcada i Reixac,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/96,DC241F,FFFFFF
+2.97,97,Pg. Fabra i Puig / Vallbona,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/97,DC241F,FFFFFF
+2.102,102,Pl. Eivissa / Cementiri de Collserola,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/102,DC241F,FFFFFF
+2.103,103,Montcada i Reixac / Cementiri de Collserola,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/103,DC241F,FFFFFF
+2.104,104,Fabra i Puig / Cementiri de Collserola,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/104,DC241F,FFFFFF
+2.107,107,Cementiri Montjuïc,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/107,DC241F,FFFFFF
+2.109,109,Hospital Clínic / Polígon Zona Franca,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/109,DC241F,FFFFFF
+2.110,110,<M> Av. Carrilet / Polígon Zona Franca,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/110,DC241F,FFFFFF
+2.111,111,Tibidabo,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/111,DC241F,FFFFFF
+2.112,112,Sant Genís,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/112,DC241F,FFFFFF
+2.113,113,La Mercè,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/113,DC241F,FFFFFF
+2.114,114,Gràcia / Can Baró,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/114,DC241F,FFFFFF
+2.115,115,La Bordeta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/115,DC241F,FFFFFF
+2.116,116,La Salut,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/116,DC241F,FFFFFF
+2.117,117,Guinardó,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/117,DC241F,FFFFFF
+2.118,118,Mas Guimbau,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/118,DC241F,FFFFFF
+2.119,119,La Teixonera,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/119,DC241F,FFFFFF
+2.120,120,Ciutat Vella,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/120,DC241F,FFFFFF
+2.121,121,Poble Sec,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/121,DC241F,FFFFFF
+2.122,122,Turó de la Peira,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/122,DC241F,FFFFFF
+2.123,123,Bonanova Alta,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/123,DC241F,FFFFFF
+2.124,124,Penitents,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/124,DC241F,FFFFFF
+2.125,125,La Marina,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/125,DC241F,FFFFFF
+2.126,126,Sant Andreu,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/126,DC241F,FFFFFF
+2.127,127,Roquetes,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/127,DC241F,FFFFFF
+2.128,128,El Rectoret,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/128,DC241F,FFFFFF
+2.129,129,El Coll,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/129,DC241F,FFFFFF
+2.130,130,Can Caralleu,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/130,DC241F,FFFFFF
+2.131,131,El Putxet,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/131,DC241F,FFFFFF
+2.132,132,Torre Llobeta / Prosperitat,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/132,DC241F,FFFFFF
+2.136,136,Pg. Marítim / Verneda,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/136,DC241F,FFFFFF
+2.150,150,Pl. Espanya / Castell de Montjuïc,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/150,DC241F,FFFFFF
+2.155,155,Can Cuiàs / Santa Maria de Montcada,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/155,DC241F,FFFFFF
+2.157,157,Collblanc / Sant Joan Despí,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/157,DC241F,FFFFFF
+2.165,165,Prat Exprés,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/165,DC241F,FFFFFF
+2.185,185,<M> Canyelles / Vall d'Hebron,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/185,DC241F,FFFFFF
+2.191,191,Pl. Congrés / Hospital de Sant Pau,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/191,DC241F,FFFFFF
+2.192,192,Hospital de Sant Pau / Poblenou,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/192,DC241F,FFFFFF
+2.196,196,Pl. Kennedy / Bellesguard,3,https://www.tmb.cat/ca/barcelona/autobusos/-/lineabus/196,DC241F,FFFFFF
