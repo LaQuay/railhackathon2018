@@ -147,13 +147,13 @@
       .then((routes) => {
         var hasIncident = routes.path.filter((route) => route.path.filter((station) => station.stopid === '1.316').length > 0).length > 0
         
-        if (hasIncident)
-        {
-          routingDataAccess.updateEdge('1.316', '1.317', 1000)
-            .then(() => {
-              searchPath()
-            })
-        }
+        // if (hasIncident)
+        // {
+        //   routingDataAccess.updateEdge('1.316', '1.317', 1000)
+        //     .then(() => {
+        //       searchPath()
+        //     })
+        // }
 
         var i = 0
         routes.path.forEach((route) => {
