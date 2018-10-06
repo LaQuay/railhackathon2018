@@ -6,7 +6,6 @@
       var promise = new Promise((resolve, reject) => {
         $.get(`${Koalas.Resources.apiUrl}/get-dijkstra/${origin[0]}/${origin[1]}/${destination[0]}/${destination[1]}/`)
           .then(response => {
-            alert(JSON.stringify(response))
             resolve(response)
           })
       })

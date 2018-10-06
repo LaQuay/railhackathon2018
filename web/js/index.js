@@ -96,7 +96,6 @@
   }
 
   window.search = function() {
-    alert('search')
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
         console.log(routes)
