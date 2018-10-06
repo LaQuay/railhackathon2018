@@ -6,6 +6,11 @@
   var routingDataAccess = Koalas.Util.getDataAccess('Routing')
   var metroDataAccess = Koalas.Util.getDataAccess('Metro')
 
+  var lineColor = {
+    'L1': '#CB2508',
+    'L2': '#90278E'
+  }
+
   function initializeMetroStations() {
     metroDataAccess.getMetroStations()
       .then((metroStations) => {
