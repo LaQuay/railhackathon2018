@@ -1,6 +1,8 @@
 import csv
 from math import sin, cos, sqrt, atan2, radians
 
+import json
+
 inf = float('inf')
 
 class ParserStops:
@@ -177,7 +179,9 @@ class ParserStops:
         info = {"path": []}
         cost = 0
         lastline = None
-        for stopid in path:
+        #for stopid in path:
+        for i in range(0,len(path)):
+            stopid = path[i]
             stopdata = graph.data[stopid]
             pathpoint = {
                 "stopid": stopid,
@@ -187,11 +191,25 @@ class ParserStops:
                 "lng": stopdata["lng"]
             }
 
+            key = None
+            if i > 0:
+                stopid1 = path[i-1]
+                stopid2 = stopid
+                key = stopid1 + "-" + stopid2
+
+            shape = None
+            if key is not None and key in graph.shape.keys():
+                shape = graph.shape[key]
+
             if lastline is None:
                 item = {}
                 item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
                 item["line"] = pathpoint["line"]
-                item["path"] = []
+                item["path"] = [pathpoint]
+                if key is None:
+                    item["shape"] = []
+                else:
+                    item["shape"] = shape
                 info["path"].append(item)
                 lastline = stopdata["line"]
             elif lastline != stopdata["line"]:
@@ -200,16 +218,21 @@ class ParserStops:
                 item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
                 item["line"] = pathpoint["line"]
                 item["path"] = [pathpoint]
+                item["shape"] = []
                 info["path"].append(item)
             else:
                 info["path"][-1]["path"].append(pathpoint)
-
-            #print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
+                if shape is not None:
+                    info["path"][-1]["shape"].append(shape)
 
         for i in range(0,len(path)-1):
             stopid1 = path[i]
             stopid2 = path[i+1]
             cost += graph.get_edge_cost(stopid1, stopid2)
+
+            key = stopid1 + "-" + stopid2
+            if key in graph.shape.keys():
+                shape = graph.shape[key]
 
         info["cost"] = cost
 
@@ -256,5 +279,61 @@ class ParserStops:
                     node3 = stopid
 
         return [node1, node2, node3]
+
+    def get_path_shape(graph):
+        def find_stopid(stopname, linename):
+            for stopid in graph.data:
+                stopdata = graph.data[stopid]
+                name = stopdata["name"]
+                line = stopdata["line"]
+                if name == stopname and line == linename:
+                    return stopid
+            return None
+
+        with open("data/E50m_XF_CAT_v1_LIN.geojson", "r", encoding='utf-8') as f:
+            geojson = json.load(f)
+
+        shape = {}
+
+        for feature in geojson['features']:
+            xarxa = feature['properties']['Xarxa']
+            linia = feature['properties']['Linia']
+            tram = feature['properties']['TRAM']
+            serveis = feature['properties']['SERVEIS']
+            tramsplit = tram.split("-")
+            serveisplit = str(serveis).split("-")
+            if tram != "Bifurcació" and "Cotxeres" not in tram and len(tramsplit) >= 2:
+                #print(str(tramsplit) + " --- " + str(serveisplit))
+                stopnamefrom = tramsplit[0]
+                stopnameto = tramsplit[1]
+                stopidfrom = None
+                stopidto = None
+                for line in serveisplit:
+                    if line != "None" and line not in ["L4", "L11", "L2", "T4", "T5", "T6"]:
+                        stopidfrom = find_stopid(stopnamefrom, line)
+                        stopidto = find_stopid(stopnameto, line)
+
+                        if stopidfrom is None:
+                            print(stopnamefrom + " ---- " + line)
+
+                if stopidfrom is not None and stopidto is not None:
+                    #print(str(tramsplit) + " --- " + str(serveisplit))
+                    #print(stopidfrom + " --- " + stopidto)
+
+                    coordinates = feature['geometry']["coordinates"][0]
+                    coords = []
+                    for c in coordinates:
+                        lat = c[1]
+                        lng = c[0]
+                        coords.append({"lat": lat, "lng": lng})
+
+                    shape[stopidfrom + "-" + stopidto] = coords
+
+        #print(shape)
+
+        graph.shape = shape
+
+
+
 
     

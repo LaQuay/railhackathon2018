@@ -26,9 +26,6 @@ def get_dijkstra(coordfrom, coordto):
     nodefroms = ParserStops.get_near_stopnodes(algorithm.graph, coordfrom["lat"], coordfrom["lng"], maxdist)
     nodetos = ParserStops.get_near_stopnodes(algorithm.graph, coordto["lat"], coordto["lng"], maxdist)
 
-    print(nodefroms)
-    print(nodetos)
-
     mininfo = None
     mincost = inf
     for nodefrom in nodefroms:
@@ -38,7 +35,6 @@ def get_dijkstra(coordfrom, coordto):
                 info = ParserStops.get_path_info(algorithm.graph, path)
 
                 cost = info["cost"]
-                print(str(nodefrom) + " --- " + str(nodeto) + " ===> " + str(cost))
                 if cost < mincost:
                     mincost = cost
                     mininfo = info
@@ -82,6 +78,8 @@ def init_graph():
     ParserStops.add_info_to_graph(graph, stopsTMB, tripsTMB, routesTMB)
     ParserStops.add_info_to_graph(graph, stopsTRAM, tripsTRAM, routesTRAM)
     # ParserStops.add_info_to_graph(graph, stopsFGC, tripsFGC, routesFGC)
+
+    ParserStops.get_path_shape(graph)
 
     return Algorithm(graph)
 
