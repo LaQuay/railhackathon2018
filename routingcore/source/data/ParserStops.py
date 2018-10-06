@@ -61,8 +61,6 @@ class ParserStops:
 
     def read_stoptimes_TMB(stopids, stopsTMB):
         data = {}
-        #stopids = [d['id'] for d in stopsTMB]
-        #stopids = sorted(stopsTMB.keys(), reverse=True)
 
         with open("data/TMB/stop_times.txt", "r") as f:
             reader = csv.reader(f, delimiter=",")
@@ -105,23 +103,38 @@ class ParserStops:
 
         return data
 
-    def add_routes_TMB(graph, stopsTMB, tripsTMB):
+    def read_routes_TMB():
+        data = {}
+
+        with open("data/TMB/routes.txt", "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader, None)
+            for i, line in enumerate(reader):
+                routeid = line[0]
+                name = line[1]
+                
+                data[routeid] = name
+
+        return data
+
+    def add_info_TMB(graph, stopsTMB, tripsTMB, routesTMB):
+        def find_route(stopid):
+            for routeid in tripsTMB:
+                if stopid in tripsTMB[routeid]:
+                    return routeid
+            return None
+
         data = {}
 
         for routeid in tripsTMB:
             stopids = tripsTMB[routeid]
-            for i in range(0,len(stopids)-1):
-                stopid1 = stopids[i]
-                stopid2 = stopids[i+1]
-
-                # TODO: cost of edge
-                #graph.add_edge(stopid1, stopid2, 20)
 
             for stopid in stopids:
                 stopdata = stopsTMB[stopid]
+                routeid = find_route(stopid)
                 data[stopid] = {
                     "name": stopdata["name"],
-                    "route": "ruta"
+                    "line": routesTMB[routeid]
                 }
 
         graph.data = data
@@ -133,10 +146,11 @@ class ParserStops:
             stopdata = graph.data[stopid]
             info["path"].append({
                 "stopid": stopid,
-                "stopname": stopdata["name"]
+                "stopname": stopdata["name"],
+                "line": stopdata["line"]
             })
 
-            print(stopid + " --- " + stopdata["name"])
+            print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
 
         for i in range(0,len(path)-1):
             stopid1 = path[i]

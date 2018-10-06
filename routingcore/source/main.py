@@ -38,11 +38,13 @@ def init_graph():
     stopsTMB = ParserStops.read_stops_TMB(stopids)
     stoptimesTMB = ParserStops.read_stoptimes_TMB(stopids, stopsTMB)
     tripsTMB = ParserStops.read_trips_TMB(stopids, stopsTMB, stoptimesTMB)
+    routesTMB = ParserStops.read_routes_TMB()
+    
+    ParserStops.add_info_TMB(graph, stopsTMB, tripsTMB, routesTMB)
 
     # FGC data
     #stopsFGC = ParserStops.read_stops_FGC()
 
-    ParserStops.add_routes_TMB(graph, stopsTMB, tripsTMB)
     
     #print(str(stopsTMB))
     #print(str(stopsFGC))
