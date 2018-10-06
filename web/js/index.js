@@ -2,6 +2,7 @@
   var map = null
   var selectedOrigin = null
   var selectedDestination = null
+  var activeLayers = []
   
   var routingDataAccess = Koalas.Util.getDataAccess('Routing')
   var metroDataAccess = Koalas.Util.getDataAccess('Metro')
@@ -18,45 +19,6 @@
     'T3': '#0C7557'
   }
 
-  function initializeMetroStations() {
-    metroDataAccess.getMetroStations()
-      .then((metroStations) => {
-        map.addLayer({
-          "id": "points",
-          "type": "symbol",
-          "source": {
-            "type": "geojson",
-            "data": {
-              "type": "FeatureCollection",
-              "features": metroStations.map((metroStation) => {
-                return {
-                  "type": 'Feature',
-                  "geometry": {
-                    "type": 'Point',
-                    "coordinates": [metroStation.location[1], metroStation.location[0]]
-                  },
-                  "propeties": {
-                    "title": metroStation.name,
-                    "icon": "metro"
-                  }
-                }
-              })
-            }
-          },
-          "layout": {
-            "icon-image": "{icon}-15",
-            "text-field": "{title}",
-            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-            "text-offset": [0, 0.6],
-            "text-anchor": "top"
-          }
-        });
-      })
-      .catch((err) => {
-        // TODO
-      })
-  }
-
   function initializeMap() {
     mapboxgl.accessToken = 'pk.eyJ1Ijoia29hbGFzLTIwMTgiLCJhIjoiY2ptd2R6dHI1MDlmMjNrcGpnZnh3Z21lZiJ9.tl5eqrIsTlvZnhE_ceaf4Q'
   
@@ -71,7 +33,7 @@
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on('load', function() {
-      initializeMetroStations()
+      // Ignore
     })
   }
 
@@ -83,9 +45,6 @@
 
     $('#inputOrigin')[0].value = selectedOrigin.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
   window.onDestinationClick = function(name, lat, lng) {
@@ -96,17 +55,74 @@
 
     $('#inputDestination')[0].value = selectedDestination.name
     $('#resultList').html('')
-
-    if (selectedOrigin && selectedDestination)
-      search()
   }
 
-  function search() {
+  var createGeoJSONCircles = function(path, radiusInKm, points) {
+    if(!points) points = 32;
+
+    var features = path.map((pathPiece) => {
+      var coords = {
+        latitude: pathPiece.lat,
+        longitude: pathPiece.lng
+      };
+  
+      var km = radiusInKm;
+  
+      var ret = [];
+      var distanceX = km/(111.320*Math.cos(coords.latitude*Math.PI/180));
+      var distanceY = km/110.574;
+  
+      var theta, x, y;
+      for(var i=0; i<points; i++) {
+        theta = (i/points)*(2*Math.PI);
+        x = distanceX*Math.cos(theta);
+        y = distanceY*Math.sin(theta);
+  
+        ret.push([coords.longitude+x, coords.latitude+y]);
+      }
+      ret.push(ret[0]);
+
+      return {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [ret]
+        }
+      }
+    })
+    
+    return {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": features
+      }
+    };
+  };
+
+  function searchPath() {
     routingDataAccess.getRoute(selectedOrigin.location, selectedDestination.location)
       .then((routes) => {
-        console.log(routes)
+        var hasIncident = routes.path.filter((route) => route.path.filter((station) => station.stopid === '1.512').length > 0).length > 0
+        
+        if (hasIncident)
+        {
+          $('#avis').show()
+          routingDataAccess.updateEdge('1.512', '1.511', 1000)
+            .then(() => {
+              searchPath()
+            })
+        }
+
         var i = 0
         routes.path.forEach((route) => {
+          var shape = []
+          if (route.shape && route.shape.length > 0 && route.line !== 'T1') {
+            route.shape.forEach(singleShape => singleShape.reverse())
+            shape = route.shape.reduce((acc, val) => acc.concat(val), [])
+          } else {
+            shape = route.path
+          }
           var layer = {
             "id": route.type + '_' + i,
             "type": "line",
@@ -114,10 +130,12 @@
               "type": "geojson",
               "data": {
                 "type": "Feature",
-                "properties": {},
+                "properties": {
+                  "title": ''
+                },
                 "geometry": {
                   "type": "LineString",
-                  "coordinates": route.path.map(function(point) {
+                  "coordinates": shape.map(function(point) {
                     return [point.lng, point.lat]
                   })
                 }
@@ -129,15 +147,42 @@
               
             },
             "paint": {
-              "line-color": route.type === 'walk' ? '#888' : lineColor[route.line],
-              "line-width": 3
+              "line-color": hasIncident ? '#999' : (route.type === 'walk' ? '#888' : lineColor[route.line]),
+              "line-width": 3,
+              "line-opacity": hasIncident ? 0.5 : 1
             }
           };
 
           if (route.type === 'walk') {
             layer.paint['line-dasharray'] = [5,3]
           }
-          map.addLayer(layer)
+          map.addLayer(layer);
+          activeLayers.push(layer);
+
+          var circlesLayer = {
+            "id": route.line + Math.floor(Math.random() * 1000000),
+            "type": 'fill',
+            "source": createGeoJSONCircles(route.path, 0.03),
+            "paint": {
+              "fill-color": hasIncident ? "#999" : "#fff",
+              "fill-antialias": true,
+              "fill-outline-color": "#000"
+            }
+          }
+          map.addLayer(circlesLayer)
+          activeLayers.push(circlesLayer)
+
+          map.addLayer({
+            "id": "symbols" + '_' + i,
+            "type": "symbol",
+            "source": route.type + '_' + i,
+            "layout": {
+              "symbol-placement": "line",
+              "text-font": ["Open Sans Regular"],
+              "text-field": '{title}',
+              "text-size": 32
+            }
+          });
 
           i++
         })
@@ -145,6 +190,16 @@
       .catch((err) => {
         // La crida ha fallat
       })
+  }
+
+  window.search = function() {
+    $('#avis').hide()
+    activeLayers.forEach((layer) => {
+      map.removeLayer(layer.id)
+    })
+    activeLayers = []
+
+    searchPath()
   }
 
   function callGoogleApi(value, callbackName) {
@@ -160,6 +215,8 @@
         }
       })
   }
+
+  $('#avis').hide()
 
   initializeMap();
 

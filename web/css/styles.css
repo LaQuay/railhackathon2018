@@ -18,3 +18,14 @@ html, body {
 .search-button {
   margin-top: 10px;
 }
+
+.grey-background {
+  background-color: #eee;
+}
+
+.avis {
+  background-color: #ffa;
+  margin: 5px 12px;
+  padding: 4px 7px;
+  display: none;
+}

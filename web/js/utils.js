@@ -4,9 +4,11 @@
 
   Koalas.DataAccess = {}
 
+  var API_URL = "/api";
+
   Koalas.Resources = {
     useMocks: false,
-    apiUrl: 'http://localhost:5000'
+    apiUrl: API_URL
   }
 
   Koalas.Util = {}
