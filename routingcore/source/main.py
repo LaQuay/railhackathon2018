@@ -21,7 +21,6 @@ def index(latitude, longitude, latitude2, longitude2):
         coordto={"lat": latitude2, "lng": longitude2}))
 
 
-
 @app.route('/update-edge/<string:node1>/<string:node2>/<int:newcost>/', methods=['POST'])
 @cross_origin()
 def index2(node1, node2, newcost):
@@ -47,7 +46,7 @@ def get_dijkstra(coordfrom, coordto):
                     mincost = cost
                     mininfo = info
 
-    #print(mininfo)
+    # print(mininfo)
 
     return mininfo
 
@@ -94,9 +93,9 @@ def init_graph():
 
 algorithm = init_graph()
 
-info = get_dijkstra(coordfrom={"lat": 41.3926816, "lng": 2.1444228}, coordto={"lat": 41.3755693, "lng": 2.1284559})
-algorithm.graph.update_edge("1.317", "1.318", 100)
-info = get_dijkstra(coordfrom={"lat": 41.3926816, "lng": 2.1444228}, coordto={"lat": 41.3755693, "lng": 2.1284559})
+# info = get_dijkstra(coordfrom={"lat": 41.3926816, "lng": 2.1444228}, coordto={"lat": 41.3755693, "lng": 2.1284559})
+# algorithm.graph.update_edge("1.317", "1.318", 100)
+# info = get_dijkstra(coordfrom={"lat": 41.3926816, "lng": 2.1444228}, coordto={"lat": 41.3755693, "lng": 2.1284559})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

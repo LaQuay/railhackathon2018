@@ -99,7 +99,6 @@
     if(!points) points = 32;
 
     var features = path.map((pathPiece) => {
-      
       var coords = {
         latitude: pathPiece.lat,
         longitude: pathPiece.lng
@@ -123,6 +122,9 @@
 
       return {
         "type": "Feature",
+        "properties": {
+          "title": pathPiece.stopname
+        },
         "geometry": {
           "type": "Polygon",
           "coordinates": [ret]
@@ -159,7 +161,9 @@
               "type": "geojson",
               "data": {
                 "type": "Feature",
-                "properties": {},
+                "properties": {
+                  "title": route.path[i].stopname
+                },
                 "geometry": {
                   "type": "LineString",
                   "coordinates": shape.map(function(point) {
@@ -182,13 +186,40 @@
           if (route.type === 'walk') {
             layer.paint['line-dasharray'] = [5,3]
           }
-          map.addLayer(layer)
+          map.addLayer(layer);
 
           map.addLayer({
-            "id": route.line,
+            "id": route.line + '_' + i,
             "type": 'fill',
             "source": createGeoJSONCircles(route.path, 0.02)
-          })
+          });
+
+          map.addLayer({
+            "id": "symbols" + '_' + i,
+            "type": "symbol",
+            "source": route.type + '_' + i,
+            "layout": {
+              "symbol-placement": "line",
+              "text-font": ["Open Sans Regular"],
+              "text-field": '{title}',
+              "text-size": 32
+            }
+          });
+
+          map.addLayer({
+            "id": "symbols2" + '_' + i,
+            "type": "symbol",
+            "source": route.line + '_' + i,
+            "layout": {
+              "symbol-placement": "line",
+              "text-font": ["Open Sans Regular"],
+              "text-field": '{title}',
+              "text-anchor": "top",
+              "text-justify": "center",
+              "text-offset": [-0.5, 0],
+              "text-size": 42
+            }
+          });
 
           i++
         })
