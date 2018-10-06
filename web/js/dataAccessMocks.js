@@ -4,7 +4,7 @@
   Koalas.DataAccess.RoutingMock = () => {
     var _this = {}
 
-    _this.getRoute = (origin, desination) => {
+    _this.getRoute = (origin, destination) => {
       var promise = new Promise((resolve, reject) => {
         resolve(routeMock)
       })
