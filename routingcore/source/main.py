@@ -7,6 +7,7 @@ from data.ParserStops import ParserStops
 
 from Graph import Graph
 from Algorithm import Algorithm
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ inf = float('inf')
 @app.route('/')
 @cross_origin()
 def index():
-    return "Dijkstra A to E: " + str(get_dijkstra())
+    return jsonify(get_dijkstra())
 
 def get_dijkstra(coordfrom, coordto):
     nodefrom = ParserStops.get_near_stopnodes(algorithm.graph, coordfrom["lat"], coordfrom["lng"])

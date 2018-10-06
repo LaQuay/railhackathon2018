@@ -178,15 +178,34 @@ class ParserStops:
 
         info = {"path": []}
         cost = 0
+        lastline = None
         for stopid in path:
             stopdata = graph.data[stopid]
-            info["path"].append({
+            print(str(stopdata))
+            pathpoint = {
                 "stopid": stopid,
                 "stopname": stopdata["name"],
                 "line": stopdata["line"]
-            })
+            }
 
-            print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
+            if lastline is None:
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = []
+                info["path"].append(item)
+                lastline = stopdata["line"]
+            elif lastline != stopdata["line"]:
+                lastline = stopdata["line"]
+                item = {}
+                item["type"] = 'metro' if pathpoint["line"][0] == 'L' else 'tram'
+                item["line"] = pathpoint["line"]
+                item["path"] = [pathpoint]
+                info["path"].append(item)
+            else:
+                info["path"][-1]["path"].append(pathpoint)
+
+            #print(stopid + " --- " + stopdata["name"] + " --- " + stopdata["line"])
 
         for i in range(0,len(path)-1):
             stopid1 = path[i]
