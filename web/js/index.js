@@ -149,6 +149,7 @@
         
         if (hasIncident)
         {
+          $('#avis').show()
           routingDataAccess.updateEdge('1.512', '1.511', 1000)
             .then(() => {
               searchPath()
@@ -186,7 +187,7 @@
               
             },
             "paint": {
-              "line-color": hasIncident ? '#555' : (route.type === 'walk' ? '#888' : lineColor[route.line]),
+              "line-color": hasIncident ? '#999' : (route.type === 'walk' ? '#888' : lineColor[route.line]),
               "line-width": 3,
               "line-opacity": hasIncident ? 0.5 : 1
             }
@@ -201,7 +202,12 @@
           var circlesLayer = {
             "id": route.line + Math.floor(Math.random() * 1000000),
             "type": 'fill',
-            "source": createGeoJSONCircles(route.path, 0.02)
+            "source": createGeoJSONCircles(route.path, 0.03),
+            "paint": {
+              "fill-color": hasIncident ? "#999" : "#fff",
+              "fill-antialias": true,
+              "fill-outline-color": "#000"
+            }
           }
           map.addLayer(circlesLayer)
           activeLayers.push(circlesLayer)
@@ -215,6 +221,7 @@
   }
 
   window.search = function() {
+    $('#avis').hide()
     activeLayers.forEach((layer) => {
       map.removeLayer(layer.id)
     })
@@ -236,6 +243,8 @@
         }
       })
   }
+
+  $('#avis').hide()
 
   initializeMap();
 

@@ -22,3 +22,10 @@ html, body {
 .grey-background {
   background-color: #eee;
 }
+
+.avis {
+  background-color: #ffa;
+  margin: 5px 12px;
+  padding: 4px 7px;
+  display: none;
+}
