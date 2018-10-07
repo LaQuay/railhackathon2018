@@ -20,7 +20,8 @@
   }
 
   function initializeMap() {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia29hbGFzLTIwMTgiLCJhIjoiY2ptd2R6dHI1MDlmMjNrcGpnZnh3Z21lZiJ9.tl5eqrIsTlvZnhE_ceaf4Q'
+    // Add here your Mapbox API KEY
+    mapboxgl.accessToken = 'API_KEY'
   
     map = new mapboxgl.Map({
       container: 'map',
@@ -203,7 +204,7 @@
   }
 
   function callGoogleApi(value, callbackName) {
-    var key = "AIzaSyDF5sfvTf21KwTB2jKrW96PB8qjmmoRidM"; // Add here your API_KEY
+    var key = "API_KEY"; // Add here your API_KEY
     $.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(value)}&region=es&key=${key}`)
       .then(results => {
         $('#resultList').html('')
